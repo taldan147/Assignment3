@@ -1,4 +1,4 @@
-
+package bgu.spl.net.srv;
 
 
 /**
@@ -21,7 +21,7 @@ public class Database {
 	 * Retrieves the single instance of this class.
 	 */
 	public static Database getInstance() {
-		return singleton;
+		return DatabaseHolder.instance;
 	}
 	
 	/**
@@ -34,4 +34,10 @@ public class Database {
 	}
 
 
+	private static class DatabaseHolder{
+		private static Database instance = new Database();
+	}
+
 }
+
+
