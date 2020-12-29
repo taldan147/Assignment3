@@ -1,13 +1,16 @@
 package bgu.spl.net.api;
 
 import bgu.spl.net.commands.BGRSCommand;
+import bgu.spl.net.common.Message;
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.srv.Database;
 
-public class BenGurionRegistrationProtocol implements MessagingProtocol<BGRSCommand>{
+public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
+{
+
 
     @Override
-    public BGRSCommand process(BGRSCommand msg) {
+    public Message process(Message msg) {
         return null;
     }
 
