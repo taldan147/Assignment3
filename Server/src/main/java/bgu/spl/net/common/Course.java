@@ -6,10 +6,10 @@ public class Course {
 
     private int courseNum;
     private String courseName;
-    private List<Integer> kdamCourses;
+    private List<Course> kdamCourses;
     private int maxNumOfStudents;
 
-    public Course(int courseNum, String courseName, List<Integer> kdamCourses, int maxNumOfStudents){
+    public Course(int courseNum, String courseName, List<Course> kdamCourses, int maxNumOfStudents){
         this.courseNum = courseNum;
         this.courseName = courseName;
         this.kdamCourses = kdamCourses;
@@ -32,7 +32,7 @@ public class Course {
         this.maxNumOfStudents = maxNumOfStudents;
     }
 
-    public List<Integer> getKdamCourses() {
+    public List<Course> getKdamCourses() {
         return kdamCourses;
     }
 }
