@@ -23,6 +23,13 @@ InputParser::InputParser(): _opCodes({}) {
 std::string InputParser::Parse(std::string line) {
     std::size_t pos = line.find_first_of(" ");
     std::string op = line.substr(0,pos);
-
-    return std::__cxx11::string();
+    std::string toReturn = _opCodes.at(op);
+    toReturn.push_back('\0');
+    line = line.substr(pos+1);
+    pos = line.find_first_of(" ");
+    toReturn.insert(toReturn.length(), line.substr(0,pos));
+    line = line.substr(pos+1);
+    toReturn.push_back('\0');
+    toReturn.insert(toReturn.length(),line);
+    return toReturn;
 }
