@@ -24,7 +24,7 @@ public class RegisterationCommand extends BGRSCommand {
         String password = arg.getParameters().get(1);
         Database database = Database.getInstance();
         if (database.doesUserExists(username))
-            return new Message((short)13, new LinkedList<String>(Arrays.asList(String.valueOf(code))));
+            return new Message((short)13, code);
         User toRegister;
         if (isAdmin)
              toRegister = new Admin(username,password);
