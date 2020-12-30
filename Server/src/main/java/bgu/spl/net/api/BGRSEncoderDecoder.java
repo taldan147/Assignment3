@@ -3,6 +3,7 @@ package bgu.spl.net.api;
 import bgu.spl.net.common.Message;
 import bgu.spl.net.impl.echo.LineMessageEncoderDecoder;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
 
     @Override
     public byte[] encode(Message message) {
-        return new byte[0];
+        return message.serialize();
     }
 
     public Message parseString(String str){
@@ -26,5 +27,7 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
         List<String> params = new LinkedList<>(Arrays.asList(tmp).subList(1, tmp.length));
         return new Message(Short.parseShort(tmp[0]),params);
     }
+
+
 
 }
