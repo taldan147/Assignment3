@@ -4,26 +4,17 @@ package bgu.spl.net.common;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Student {
-    private String userName;
-    private String password;
+public class Student extends User {
+
     private List<Course> registeredCourses;
-    private boolean signedIn;
+
 
     public Student(String userName, String password){
-        this.userName = userName;
-        this.password = password;
-        signedIn = true;
+        super(userName, password);
         registeredCourses = new LinkedList<>();
     }
 
-    public String getUserName() {
-        return userName;
-    }
 
-    public String getPassword() {
-        return password;
-    }
 
     public List<Course> getRegisteredCourses() {
         return registeredCourses;
@@ -31,12 +22,13 @@ public class Student {
 
     public void registerCourse(Course registerCourse) {
         registeredCourses.add(registerCourse);
+        registerCourse.registerStudent();
     }
     public void unregisterCourse(Course course){
         registeredCourses.remove(course);
+        course.unregisterStudent();
     }
 
-    public void logIn(){ signedIn = true;}
 
-    public void logOut(){signedIn = false;}
+
 }

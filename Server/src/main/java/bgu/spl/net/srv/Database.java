@@ -3,6 +3,7 @@ package bgu.spl.net.srv;
 
 import bgu.spl.net.common.Course;
 import bgu.spl.net.common.Student;
+import bgu.spl.net.common.User;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,12 +17,12 @@ import java.util.Set;
  * You can add private fields and methods to this class as you see fit.
  */
 public class Database {
-	private Set<Student> students;
+	private Set<User> users;
 	private Set<Course> courses;
 
 	//to prevent user from creating new Database
 	private Database() {
-		students = new HashSet<>();
+		users = new HashSet<>();
 		courses = new HashSet<>();
 	}
 
@@ -41,6 +42,25 @@ public class Database {
 		return false;
 	}
 
+	public Course getCourse(int courseNum){
+		return courses.stream().filter(course -> course.getCourseNum() == courseNum).findFirst().get();
+	}
+
+	public User getUser(String username){
+		return  users.stream().filter(user -> user.getUserName().equals(username)).findFirst().get();
+	}
+
+	public boolean doesUserExists(String username){
+		for (User user : users){
+			if (user.getUserName().equals(username))
+				return true;
+		}
+		return false;
+	}
+
+	public void registerUser(User user){
+		users.add(user);
+	}
 
 	private static class DatabaseHolder{
 		private static Database instance = new Database();

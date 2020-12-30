@@ -8,6 +8,7 @@ public class Course {
     private String courseName;
     private List<Course> kdamCourses;
     private int maxNumOfStudents;
+    private int numOfRegiisteredStrudents;
 
     public Course(int courseNum,int id, String courseName, List<Course> kdamCourses, int maxNumOfStudents){
         this.courseNum = courseNum;
@@ -15,6 +16,7 @@ public class Course {
         this.courseName = courseName;
         this.kdamCourses = kdamCourses;
         this.maxNumOfStudents = maxNumOfStudents;
+        this.numOfRegiisteredStrudents = 0;
     }
 
     public int getCourseNum() {
@@ -39,5 +41,12 @@ public class Course {
 
     public List<Course> getKdamCourses() {
         return kdamCourses;
+    }
+
+    public void registerStudent(){
+        numOfRegiisteredStrudents++;
+    }
+    public void unregisterStudent(){
+        numOfRegiisteredStrudents--;
     }
 }

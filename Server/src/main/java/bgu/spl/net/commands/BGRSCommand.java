@@ -6,6 +6,8 @@ import bgu.spl.net.srv.Database;
 
 public abstract class BGRSCommand implements Command<Message> {
     short code;
-
+    public BGRSCommand(short opcode){
+        this.code = opcode;
+    }
 
 }
