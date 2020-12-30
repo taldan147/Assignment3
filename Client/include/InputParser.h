@@ -7,11 +7,12 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 
 class InputParser {
 private:
-    std::vector<std::pair<int,std::string>> _opCodes;
+    std::unordered_map<std::string,std::string> _opCodes;
 public:
     InputParser();
     std::string Parse(std::string line);
