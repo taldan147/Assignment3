@@ -1,5 +1,7 @@
 package bgu.spl.net.common;
 
+import bgu.spl.net.impl.rci.Command;
+import bgu.spl.net.srv.Database;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.ByteArrayOutputStream;
@@ -10,17 +12,22 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Message implements Serializable {
-    short opcode;
-    List<String> parameters;
+public abstract class Message implements Command<Database> {
+    protected short opcode;
+    protected List<String> parameters;
 
-    public Message(short opcode, List<String> parameters){
+    protected Message(short opcode, List<String> parameters){
         this.opcode = opcode;
         this.parameters = parameters;
     }
 
+    protected Message(short opcode){
+        this.opcode = opcode;
+        this.parameters = null;
+    }
+
     // will be used to create answers on the server
-    public Message(short serverCode, short clientCode){
+    protected Message(short serverCode, short clientCode){
         this.opcode = serverCode;
         parameters = new LinkedList<String>(Arrays.asList(String.valueOf(clientCode)));
     }

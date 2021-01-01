@@ -4,11 +4,10 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class Error extends Message{
-    public Error(short opcode, List<String> parameters) {
-        super(opcode, parameters);
+public class Error extends ServerAnswer{
+    public Error(short code,short clientCode){
+        super(code,clientCode);
     }
-
     @Override
     public byte[] serialize(){
         byte[] toReturn=null;

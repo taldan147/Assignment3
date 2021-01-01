@@ -1,5 +1,7 @@
 package bgu.spl.net;
 
+import bgu.spl.net.api.BGRSEncoderDecoder;
+import bgu.spl.net.api.BenGurionRegistrationProtocol;
 import bgu.spl.net.impl.echo.EchoProtocol;
 import bgu.spl.net.impl.echo.LineMessageEncoderDecoder;
 import bgu.spl.net.impl.newsfeed.NewsFeed;
@@ -21,7 +23,7 @@ public class Main {
         Server.reactor(
                 Runtime.getRuntime().availableProcessors(),
                 7777, //port
-                () -> new EchoProtocol(), //protocol factory
+                EchoProtocol::new, //protocol factory
                 LineMessageEncoderDecoder::new //message encoder decoder factory
         ).serve();
     }

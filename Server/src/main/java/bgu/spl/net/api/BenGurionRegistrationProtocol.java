@@ -1,17 +1,32 @@
 package bgu.spl.net.api;
 
-import bgu.spl.net.commands.BGRSCommand;
+import bgu.spl.net.commands.LoginCommand;
+import bgu.spl.net.commands.RegistrationCommand;
+import bgu.spl.net.common.ClientMessage;
+import bgu.spl.net.common.Error;
 import bgu.spl.net.common.Message;
-import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.srv.Database;
 
-public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
-{
+import java.io.Serializable;
 
+public class BenGurionRegistrationProtocol implements MessagingProtocol<Message> {
+    private String userName;
+    private boolean loggedIn;
 
     @Override
     public Message process(Message msg) {
-        return null;
+        Message com;
+        ClientMessage message = (ClientMessage) msg;
+        if (message instanceof LoginCommand) {
+            userName = (message).getUsername();
+            loggedIn = true;
+        } else {
+            if (!loggedIn) {
+                return new Error((short) 13, message.getOpcode());
+            }
+            message.setUsername(userName);
+        }
+        return (Message) message.execute(Database.getInstance());
     }
 
     @Override
