@@ -10,11 +10,13 @@ public class Error extends ServerAnswer{
     }
     @Override
     public byte[] serialize(){
-        byte[] toReturn=null;
-        ByteBuffer buffer = ByteBuffer.allocate(2);
-        buffer.putShort(opcode);
-        toReturn =  buffer.array();
-        toReturn=appendByteArray(toReturn,(parameters.get(0)).getBytes(StandardCharsets.UTF_8));
+        byte[] toReturn=new byte[2];
+        toReturn[0]= (byte) 13;
+        toReturn[0]= (byte) opcode;
+//        ByteBuffer buffer = ByteBuffer.allocate(4);
+//        buffer.putShort(opcode).putShort(Short.parseShort(parameters.get(0)));
+//        buffer.get(toReturn);
+//        toReturn=appendByteArray(toReturn,(Short.parseShort(parameters.get(0))));
         return toReturn;
     }
 }

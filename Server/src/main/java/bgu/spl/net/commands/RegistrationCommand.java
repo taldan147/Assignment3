@@ -7,13 +7,15 @@ import com.sun.xml.internal.ws.api.client.SelectOptimalEncodingFeature;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 public class RegistrationCommand extends ClientMessage {
     private boolean isAdmin;
 
-    public RegistrationCommand(short opcode, boolean isAdmin){
-        super(opcode);
+    public RegistrationCommand(short opcode, boolean isAdmin, List<String> params){
+        super(opcode, params);
         this.isAdmin = isAdmin;
     }
     @Override
@@ -29,7 +31,7 @@ public class RegistrationCommand extends ClientMessage {
         else
             toRegister = new Student(username,password);
         database.registerUser(toRegister);
-        return new Ack((short)12, new LinkedList<String>(Arrays.asList(String.valueOf(opcode),"\0")));
+        return new Ack(opcode, new LinkedList<>());
     }
 
 

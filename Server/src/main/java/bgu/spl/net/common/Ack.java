@@ -13,11 +13,12 @@ public class Ack extends ServerAnswer{
     }
     @Override
     public byte[] serialize(){
-        byte[] toReturn=null;
-        ByteBuffer buffer = ByteBuffer.allocate(2);
-        buffer.putShort(opcode);
-        toReturn =  buffer.array();
-
+        byte[] toReturn=new byte[2];
+//        ByteBuffer buffer = ByteBuffer.allocate(4);
+//        buffer.putShort((short)12).putShort(opcode);
+//        toReturn =  buffer.array();
+        toReturn[0]=(byte)12;
+        toReturn[1]=(byte)opcode;
         for (String str:parameters) {
             toReturn=appendByteArray(toReturn,(str).getBytes(StandardCharsets.UTF_8));
         }

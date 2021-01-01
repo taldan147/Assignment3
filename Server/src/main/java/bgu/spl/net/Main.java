@@ -23,8 +23,8 @@ public class Main {
         Server.reactor(
                 Runtime.getRuntime().availableProcessors(),
                 7777, //port
-                EchoProtocol::new, //protocol factory
-                LineMessageEncoderDecoder::new //message encoder decoder factory
+                BenGurionRegistrationProtocol::new, //protocol factory
+                BGRSEncoderDecoder::new //message encoder decoder factory
         ).serve();
     }
 }

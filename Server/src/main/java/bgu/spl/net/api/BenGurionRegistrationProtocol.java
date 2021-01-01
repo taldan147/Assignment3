@@ -21,7 +21,7 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
             userName = (message).getUsername();
             loggedIn = true;
         } else {
-            if (!loggedIn) {
+            if (!loggedIn && !(message instanceof RegistrationCommand)) {
                 return new Error((short) 13, message.getOpcode());
             }
             message.setUsername(userName);

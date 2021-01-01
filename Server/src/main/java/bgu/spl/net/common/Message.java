@@ -54,7 +54,7 @@ public abstract class Message implements Command<Database> {
             toReturn[i] = arr1[i];
         }
         for (int i=arr1.length;i<toReturn.length;i++){
-            toReturn[i]=arr2[i];
+            toReturn[i]=arr2[i-arr1.length];
         }
         return toReturn;
     }

@@ -37,7 +37,7 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
         short opCode=Short.parseShort(tmp[0]);
         switch (opCode){
             case 01:{
-                msg=new RegistrationCommand(opCode, true);
+                msg=new RegistrationCommand(opCode, true, params);
             }
             break;
             default:
