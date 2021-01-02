@@ -17,7 +17,7 @@ public class LogInCommand extends ClientMessage {
     public Serializable execute(Database arg) {
         String username = parameters.get(0);
         String password = parameters.get(1);
-        if (!arg.doesUserExists(username) || !arg.getPassword(username).equals(password) || arg.getUser(username).isSignedIn())
+        if (!arg.doesUserExists(username) || !arg.getUser(username).getPassword().equals(password) || arg.getUser(username).isSignedIn())
             return new Error(opcode, new LinkedList<>() );
         arg.getUser(username).logIn();
         return new Ack(opcode, new LinkedList<>());

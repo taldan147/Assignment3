@@ -6,7 +6,7 @@ import java.util.List;
 
 public  abstract class ClientMessage extends Message {
 
-    protected String username;
+    protected String username = null;
 
     protected ClientMessage(short opcode, List<String> parameters) {
         super(opcode, parameters);

@@ -98,6 +98,15 @@ public class Database {
         return false;
     }
 
+
+
+    public void registerToCourse(String username, short courseNum){
+    	Student student = (Student) getUser(username);
+    	Course courseToRegister = getCourse(courseNum);
+    	student.registerCourse(courseToRegister);
+    	courseToRegister.registerStudent();
+	}
+
     public void registerUser(User user) {
         users.add(user);
     }

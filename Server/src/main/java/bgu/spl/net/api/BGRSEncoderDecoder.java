@@ -1,8 +1,6 @@
 package bgu.spl.net.api;
 
-import bgu.spl.net.commands.LogInCommand;
-import bgu.spl.net.commands.LogOutCommand;
-import bgu.spl.net.commands.RegistrationCommand;
+import bgu.spl.net.commands.*;
 import bgu.spl.net.commands.Error;
 import bgu.spl.net.commands.base.ClientMessage;
 import bgu.spl.net.commands.base.Message;
@@ -43,18 +41,22 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
     }
 
     private Message decodeQuery(byte nextByte) {
-
+        Message msg;
         if (queryCode == null) {
             queryCode = opCodeDecoder.decodeNextByte(nextByte);
             return null;
         }
         switch (code){
-            case 5:
-                return null;
+            case 5: {
+                msg = new RegCourseCommand(code, queryCode);
+                reset();
+                break;
+            }
 
             default:
-                return null;
+                msg = new Error(code, new LinkedList<>());
         }
+        return msg;
 
     }
     private void reset(){
