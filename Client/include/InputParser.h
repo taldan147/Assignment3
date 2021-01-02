@@ -12,10 +12,11 @@
 
 class InputParser {
 private:
-    std::unordered_map<std::string,std::string> _opCodes;
+    std::unordered_map<std::string,short> _opCodes;
 public:
     InputParser();
-    std::string Parse(std::string line);
+//    std::string Parse(std::string line);
+//    void parse(char * arrChar ,std::string line);
 };
 
 
