@@ -3,7 +3,7 @@ package bgu.spl.net.commands;
 import bgu.spl.net.common.*;
 import bgu.spl.net.common.Error;
 import bgu.spl.net.srv.Database;
-import com.sun.xml.internal.ws.api.client.SelectOptimalEncodingFeature;
+//import com.sun.xml.internal.ws.api.client.SelectOptimalEncodingFeature;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ public class RegistrationCommand extends ClientMessage {
         String password = parameters.get(1);
         Database database = Database.getInstance();
         if (database.doesUserExists(username))
-            return new Error((short)13, opcode );
+            return new Error(opcode, new LinkedList<>() );
         User toRegister;
         if (isAdmin)
              toRegister = new Admin(username,password);

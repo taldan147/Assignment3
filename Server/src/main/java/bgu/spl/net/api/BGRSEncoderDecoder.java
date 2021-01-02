@@ -41,7 +41,7 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
             }
             break;
             default:
-                msg= new Error((short)13, opCode);
+                msg= new Error(opCode, new LinkedList<>());
         }
         return msg;
     }

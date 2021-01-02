@@ -91,6 +91,8 @@ bool ConnectionHandler::getFrameAscii(std::string& frame, char delimiter) {
     }
     return true;
 }
+
+
  
  
 bool ConnectionHandler::sendFrameAscii(const std::string& frame, char delimiter) {

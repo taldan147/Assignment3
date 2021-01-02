@@ -5,14 +5,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class Error extends ServerAnswer{
-    public Error(short code,short clientCode){
-        super(code,clientCode);
+
+
+    public Error(short opCode, List<String> params) {
+        super(opCode, params);
     }
+
     @Override
     public byte[] serialize(){
         byte[] toReturn=new byte[2];
-        toReturn[0]= (byte) 13;
-        toReturn[0]= (byte) opcode;
+        toReturn[0]= 13;
+        toReturn[1]= (byte) opcode;
 //        ByteBuffer buffer = ByteBuffer.allocate(4);
 //        buffer.putShort(opcode).putShort(Short.parseShort(parameters.get(0)));
 //        buffer.get(toReturn);

@@ -8,6 +8,7 @@ import bgu.spl.net.common.Message;
 import bgu.spl.net.srv.Database;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 public class BenGurionRegistrationProtocol implements MessagingProtocol<Message> {
     private String userName;
@@ -22,7 +23,7 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
             loggedIn = true;
         } else {
             if (!loggedIn && !(message instanceof RegistrationCommand)) {
-                return new Error((short) 13, message.getOpcode());
+                return new Error(message.getOpcode(), new LinkedList<String>());
             }
             message.setUsername(userName);
         }

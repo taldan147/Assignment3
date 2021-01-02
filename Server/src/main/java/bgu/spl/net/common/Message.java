@@ -2,7 +2,7 @@ package bgu.spl.net.common;
 
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.srv.Database;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
