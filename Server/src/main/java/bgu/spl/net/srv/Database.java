@@ -98,7 +98,13 @@ public class Database {
         return false;
     }
 
-
+	public boolean doesCourseExists(short courseNum){
+    	for (Course course: courses){
+    		if (course.getCourseNum() == courseNum)
+    			return true;
+		}
+    	return false;
+	}
 
     public void registerToCourse(String username, short courseNum){
     	Student student = (Student) getUser(username);
