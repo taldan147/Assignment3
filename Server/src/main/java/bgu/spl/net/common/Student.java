@@ -29,7 +29,14 @@ public class Student extends User {
         course.unregisterStudent();
     }
 
-
+    public boolean hasAllKdam(short courseNum){
+        List<Course> kdamCourses = database.getCourse(courseNum).getKdamCourses();
+        for (Course course : kdamCourses){
+            if (!registeredCourses.contains(course))
+                return false;
+        }
+        return true;
+    }
 
 
 
