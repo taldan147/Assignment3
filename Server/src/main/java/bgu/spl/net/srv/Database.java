@@ -40,7 +40,7 @@ public class Database {
 	 * loades the courses from the file path specified 
 	 * into the Database, returns true if successful.
 	 */
-	boolean initialize(String coursesFilePath) {
+	public boolean initialize(String coursesFilePath) {
 		File courses=new File(coursesFilePath);
 		try (Scanner myReader = new Scanner(courses)) {
 			while(myReader.hasNextLine()){
@@ -48,9 +48,10 @@ public class Database {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		}
 		mergeCourses();
-		return false;
+		return true;
 	}
 
 	private void mergeCourses() {
