@@ -54,11 +54,8 @@ public class Database {
 	}
 
 	private LinkedList<String> parseLine(String nextLine) {
-		LinkedList<String> toReturn=new LinkedList<>();
-
-
-
-		return toReturn;
+		String[] split=nextLine.split("\\|");
+		return new LinkedList<>(Arrays.asList(split));
 	}
 
 	public Course getCourse(int courseNum){
