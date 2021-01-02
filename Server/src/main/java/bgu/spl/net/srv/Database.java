@@ -5,8 +5,9 @@ import bgu.spl.net.common.Course;
 import bgu.spl.net.common.Student;
 import bgu.spl.net.common.User;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 /**
  * Passive object representing the Database where all courses and users are stored.
@@ -38,8 +39,26 @@ public class Database {
 	 * into the Database, returns true if successful.
 	 */
 	boolean initialize(String coursesFilePath) {
-		// TODO: implement
+		File courses=new File(coursesFilePath);
+		try (Scanner myReader = new Scanner(courses)) {
+			while(myReader.hasNextLine()){
+				addToDB(parseLine(myReader.nextLine()));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		return false;
+	}
+
+	private void addToDB(List<String> parsedLine) {
+	}
+
+	private LinkedList<String> parseLine(String nextLine) {
+		LinkedList<String> toReturn=new LinkedList<>();
+
+
+
+		return toReturn;
 	}
 
 	public Course getCourse(int courseNum){
