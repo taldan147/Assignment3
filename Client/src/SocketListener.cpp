@@ -40,15 +40,9 @@ void SocketListener::run(){
             std::cout<<"ERROR "<<origcode << std::endl;
         }
         else{
-            std::cout << "ACK " << origcode;
             int len=answer.size();
             answer.resize(len - 1);
-//        std::cout << "Reply: " << answer << " " << len << " bytes " << std::endl << std::endl;
-            std::cout  << " " << answer <<  std::endl << std::endl;
-            if (answer == "bye") {
-                std::cout << "Exiting...\n" << std::endl;
-                break;
-            }
+            std::cout  << "ACK " << origcode << " " << answer << std::endl;
         }
 
 

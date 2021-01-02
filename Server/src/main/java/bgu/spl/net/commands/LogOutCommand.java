@@ -4,17 +4,18 @@ import bgu.spl.net.commands.base.ClientMessage;
 import bgu.spl.net.srv.Database;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
-public class LoginCommand extends ClientMessage {
-
-
-    protected LoginCommand(short opcode, List<String> parameters) {
+public class LogOutCommand extends ClientMessage {
+    public LogOutCommand(short opcode, List<String> parameters) {
         super(opcode, parameters);
+
     }
 
     @Override
     public Serializable execute(Database arg) {
-        return null;
+        arg.getUser(username).logOut();
+        return new Ack(opcode, new LinkedList<>());
     }
 }
