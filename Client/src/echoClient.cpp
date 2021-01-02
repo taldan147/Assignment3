@@ -32,11 +32,12 @@ int main (int argc, char *argv[]) {
         std::cin.getline(buf, bufsize);
 		std::string line(buf);
 		int len=line.length();
+		char bytes[len];
         InputParser* parser = new InputParser();
-        std::string newLine = parser->Parse(line);
+        int diff = parser->parse(line,bytes);
         //connectionHandler.sendBytes(c,1);
         // !connectionHandler.sendLine(line)
-        if (!connectionHandler.sendLine(newLine)) {
+        if (!connectionHandler.sendBytes(bytes, diff)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }

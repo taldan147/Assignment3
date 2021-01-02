@@ -20,9 +20,6 @@ InputParser::InputParser(): _opCodes({}) {
 
 }
 
-//void InputParser::parse(char *arrChar, std::string line) {
-//
-//}
 
 //std::string InputParser::Parse(std::string line) {
 //    std::size_t pos = line.find_first_of(" ");
@@ -37,3 +34,27 @@ InputParser::InputParser(): _opCodes({}) {
 //    toReturn.insert(toReturn.length(),line);
 //    return toReturn;
 //}
+int InputParser::parse(std::string line, char bytes[]) {
+    int diff;
+    std::size_t pos = line.find_first_of(" ");
+    diff = line.size()-pos+3;
+    std::string op = line.substr(0,pos);
+    short code = _opCodes.at(op);
+    line = line.substr(pos);
+    bytes[0] = ((code >> 8) & 0xFF);
+    bytes[1] = (code & 0xFF);
+    for (unsigned int i = 2; i<line.size()+2; i++) {
+        bytes[i] = line[i-2];
+    }
+    bytes[line.size()+2] = '\0';
+    changeDelimiter(bytes, diff);
+    return diff;
+}
+
+void InputParser::changeDelimiter(char charArr[], int length) {
+    for ( signed int i=0; i< length; i++){
+        if (charArr[i] == ' ')
+            charArr[i] = '\0';
+    }
+
+}

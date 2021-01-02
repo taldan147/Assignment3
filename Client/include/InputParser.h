@@ -16,7 +16,9 @@ private:
 public:
     InputParser();
 //    std::string Parse(std::string line);
-//    void parse(char * arrChar ,std::string line);
+    int parse(std::string line, char bytes[]);
+    void changeDelimiter(char charArr[], int len);
+
 };
 
 
