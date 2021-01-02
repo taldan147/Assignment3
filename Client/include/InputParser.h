@@ -8,11 +8,13 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <boost/lexical_cast.hpp>
 
 
 class InputParser {
 private:
     std::unordered_map<std::string,short> _opCodes;
+    std::vector<short> _queries;
 public:
     InputParser();
 //    std::string Parse(std::string line);

@@ -4,7 +4,7 @@
 
 #include "../include/InputParser.h"
 
-InputParser::InputParser(): _opCodes({}) {
+InputParser::InputParser() : _opCodes({}), _queries({5, 6, 7, 9, 10}) {
     _opCodes["ADMINREG"] = 1;
     _opCodes["STUDENTREG"] = 2;
     _opCodes["LOGIN"] = 3;
@@ -17,41 +17,41 @@ InputParser::InputParser(): _opCodes({}) {
     _opCodes["UNREGISTER"] = 10;
     _opCodes["MYCOURSES"] = 11;
 
+
 }
 
-
-//std::string InputParser::Parse(std::string line) {
-//    std::size_t pos = line.find_first_of(" ");
-//    std::string op = line.substr(0,pos);
-//    std::string toReturn = _opCodes.at(op);
-//    toReturn.push_back('\0');
-//    line = line.substr(pos+1);
-//    pos = line.find_first_of(" ");
-//    toReturn.insert(toReturn.length(), line.substr(0,pos));
-//    line = line.substr(pos+1);
-//    toReturn.push_back('\0');
-//    toReturn.insert(toReturn.length(),line);
-//    return toReturn;
-//}
 int InputParser::parse(std::string line, char bytes[]) {
     int diff;
+    bool query=false;
     std::size_t pos = line.find_first_of(" ");
-    diff = line.size()-pos+2;
-    std::string op = line.substr(0,pos);
+    diff = line.size() - pos + 2;
+    std::string op = line.substr(0, pos);
     short code = _opCodes.at(op);
-    line = line.substr(pos+1);
+    line = line.substr(pos + 1);
     bytes[0] = ((code >> 8) & 0xFF);
     bytes[1] = (code & 0xFF);
-    for (unsigned int i = 2; i<line.size()+2; i++) {
-        bytes[i] = line[i-2];
+    for (short queryCode:_queries) {
+        if (code == queryCode) {
+            query=true;
+        }
     }
-    bytes[line.size()+2] = '\0';
+    if (query) {
+        short queryTarget = boost::lexical_cast<short>(line);
+        bytes[2] = ((queryTarget >> 8) & 0xFF);
+        bytes[3] = (queryTarget & 0xFF);
+    } else {
+        for (unsigned int i = 2; i < line.size() + 2; i++) {
+            bytes[i] = line[i - 2];
+        }
+        bytes[line.size() + 2] = '\0';
+    }
+
     changeDelimiter(bytes, diff);
     return diff;
 }
 
 void InputParser::changeDelimiter(char charArr[], int length) {
-    for ( signed int i=0; i< length; i++){
+    for (signed int i = 0; i < length; i++) {
         if (charArr[i] == ' ')
             charArr[i] = '\0';
     }
