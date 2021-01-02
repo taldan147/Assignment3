@@ -1,11 +1,10 @@
-package bgu.spl.net.common;
+package bgu.spl.net.commands.base;
 
-import bgu.spl.net.srv.Database;
+import bgu.spl.net.commands.base.Message;
 
-import java.io.Serializable;
 import java.util.List;
 
-public  abstract class ClientMessage extends Message{
+public  abstract class ClientMessage extends Message {
 
     private String username;
 

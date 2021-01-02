@@ -15,17 +15,18 @@ void SocketListener::run(){
         std::string answer;
         // Get back an answer: by using the expected number of bytes (len bytes + newline delimiter)
         // We could also use: connectionHandler.getline(answer) and then get the answer without the newline char at the end
-        char bytes[2];
-        sleep(2);
+        char bytes[4];
 
 
 
-        if (!_handle->getBytes(bytes, 2)) {
+        if (!_handle->getBytes(bytes, 4)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
-        short code = bytes[0];
-        short origcode=bytes[1];
+        auto code = (short)((bytes[0] & 0xff) << 8);
+        code += (short)(bytes[1] & 0xff);
+        auto origcode= (short)((bytes[2] & 0xff) << 8);
+        origcode += (short)(bytes[3] & 0xff);
 
 
         // A C string must end with a 0 char delimiter.  When we filled the answer buffer from the socket

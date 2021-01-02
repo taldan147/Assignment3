@@ -37,10 +37,10 @@ InputParser::InputParser(): _opCodes({}) {
 int InputParser::parse(std::string line, char bytes[]) {
     int diff;
     std::size_t pos = line.find_first_of(" ");
-    diff = line.size()-pos+3;
+    diff = line.size()-pos+2;
     std::string op = line.substr(0,pos);
     short code = _opCodes.at(op);
-    line = line.substr(pos);
+    line = line.substr(pos+1);
     bytes[0] = ((code >> 8) & 0xFF);
     bytes[1] = (code & 0xFF);
     for (unsigned int i = 2; i<line.size()+2; i++) {

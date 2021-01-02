@@ -1,6 +1,6 @@
 package bgu.spl.net.commands;
 
-import bgu.spl.net.common.ClientMessage;
+import bgu.spl.net.commands.base.ClientMessage;
 import bgu.spl.net.srv.Database;
 
 import java.io.Serializable;

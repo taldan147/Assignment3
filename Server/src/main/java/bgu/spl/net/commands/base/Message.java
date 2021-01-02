@@ -1,4 +1,4 @@
-package bgu.spl.net.common;
+package bgu.spl.net.commands.base;
 
 import bgu.spl.net.impl.rci.Command;
 import bgu.spl.net.srv.Database;

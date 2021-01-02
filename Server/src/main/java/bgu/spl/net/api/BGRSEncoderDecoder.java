@@ -1,27 +1,82 @@
 package bgu.spl.net.api;
 
 import bgu.spl.net.commands.RegistrationCommand;
-import bgu.spl.net.common.Error;
-import bgu.spl.net.common.Message;
+import bgu.spl.net.commands.Error;
+import bgu.spl.net.commands.base.Message;
 import bgu.spl.net.impl.echo.LineMessageEncoderDecoder;
-import bgu.spl.net.impl.rci.ObjectEncoderDecoder;
 
-import java.io.Serializable;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
 
 public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
-//    private final ObjectEncoderDecoder lineMessageEC = new ObjectEncoderDecoder();
-    private  final LineMessageEncoderDecoder lineMessageEC = new LineMessageEncoderDecoder();
+    private final OpCodeDecoder opCodeDecoder = new OpCodeDecoder();
+    private final LineMessageEncoderDecoder lineDecoder = new LineMessageEncoderDecoder();
+    private boolean messageReady = false;
+    private LinkedList<String> params=new LinkedList<>();
+    private Set<Integer> queries= new HashSet<Integer>(){{add(5);add(6);add(8);add(7);}};
+    Short code = null;
+    String param=null;
+    Short queryCode=null;
 
     @Override
     public Message decodeNextByte(byte nextByte) {
-//        Serializable line = lineMessageEC.decodeNextByte(nextByte);
-        String line = lineMessageEC.decodeNextByte(nextByte);
-        if (line == null)
+
+        if (code == null) {
+            code = opCodeDecoder.decodeNextByte(nextByte);
             return null;
-        return parseString(line);
+        }
+        if(queries.contains(code.intValue())){
+            return decodeQuery(nextByte);
+        }
+        param = lineDecoder.decodeNextByte(nextByte);
+        if (param == null)
+            return null;
+        else{
+            params.add(param);
+            param=null;
+        }
+        return parse(code);
+    }
+
+    private Message decodeQuery(byte nextByte) {
+
+        if (queryCode == null) {
+            queryCode = opCodeDecoder.decodeNextByte(nextByte);
+            return null;
+        }
+        switch (code){
+            case 5:
+                return null;
+
+            default:
+                return null;
+        }
+
+    }
+    private void reset(){
+        params = new LinkedList<>();
+        code = null;
+        param=null;
+        queryCode=null;
+//        opCodeDecoder.resetFinished();
+    }
+
+    private Message parse(Short code) {
+        Message msg;
+        switch (code) {
+            case 1: {
+                if(params.size()<2){
+                    return null;
+                }
+                msg = new RegistrationCommand(code, true, params);
+                reset();
+            }
+            break;
+            default:
+                msg = new Error(code, new LinkedList<>());
+        }
+        return msg;
     }
 
 
@@ -30,22 +85,10 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
         return message.serialize();
     }
 
-    public Message parseString(String str){
-        String[] tmp = str.split("\0");
-        List<String> params = new LinkedList<>(Arrays.asList(tmp).subList(1, tmp.length));
-        Message msg;
-        short opCode=Short.parseShort(tmp[0]);
-        switch (opCode){
-            case 01:{
-                msg=new RegistrationCommand(opCode, true, params);
-            }
-            break;
-            default:
-                msg= new Error(opCode, new LinkedList<>());
-        }
-        return msg;
+    public void readParams(int length, LinkedList<String> params) {
+
     }
 
 
-
 }
+

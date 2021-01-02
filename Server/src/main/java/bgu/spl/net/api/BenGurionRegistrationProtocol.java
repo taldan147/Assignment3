@@ -2,12 +2,11 @@ package bgu.spl.net.api;
 
 import bgu.spl.net.commands.LoginCommand;
 import bgu.spl.net.commands.RegistrationCommand;
-import bgu.spl.net.common.ClientMessage;
-import bgu.spl.net.common.Error;
-import bgu.spl.net.common.Message;
+import bgu.spl.net.commands.base.ClientMessage;
+import bgu.spl.net.commands.Error;
+import bgu.spl.net.commands.base.Message;
 import bgu.spl.net.srv.Database;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 
 public class BenGurionRegistrationProtocol implements MessagingProtocol<Message> {
