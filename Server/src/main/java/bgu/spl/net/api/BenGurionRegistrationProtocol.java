@@ -1,6 +1,7 @@
 package bgu.spl.net.api;
 
-import bgu.spl.net.commands.LoginCommand;
+import bgu.spl.net.commands.LogInCommand;
+
 import bgu.spl.net.commands.RegistrationCommand;
 import bgu.spl.net.commands.base.ClientMessage;
 import bgu.spl.net.commands.Error;
@@ -17,7 +18,7 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
     public Message process(Message msg) {
         Message com;
         ClientMessage message = (ClientMessage) msg;
-        if (message instanceof LoginCommand) {
+        if (message instanceof LogInCommand) {
             userName = (message).getUsername();
             loggedIn = true;
         } else {

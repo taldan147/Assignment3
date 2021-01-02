@@ -1,5 +1,6 @@
 package bgu.spl.net.api;
 
+import bgu.spl.net.commands.LogInCommand;
 import bgu.spl.net.commands.RegistrationCommand;
 import bgu.spl.net.commands.Error;
 import bgu.spl.net.commands.base.Message;
@@ -78,6 +79,14 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                     return null;
                 }
                 msg = new RegistrationCommand(code, false, params);
+                reset();
+                break;
+            }
+            case 3:{
+                if(params.size()<2){
+                    return null;
+                }
+                msg = new LogInCommand(code, params);
                 reset();
                 break;
             }

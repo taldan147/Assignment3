@@ -82,7 +82,7 @@ public class Database {
 		private static Database instance = new Database();
 	}
 
-
+	public String getPassword(String user){ return getUser(user).getPassword();}
 
 }
 

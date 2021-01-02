@@ -39,4 +39,6 @@ public abstract class User {
         }
         return toReturn;
     }
+
+    public boolean isSignedIn(){ return signedIn;}
 }
