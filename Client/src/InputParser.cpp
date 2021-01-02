@@ -17,7 +17,6 @@ InputParser::InputParser(): _opCodes({}) {
     _opCodes["UNREGISTER"] = 10;
     _opCodes["MYCOURSES"] = 11;
 
-
 }
 
 

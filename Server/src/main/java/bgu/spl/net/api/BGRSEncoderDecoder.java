@@ -71,8 +71,16 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                 }
                 msg = new RegistrationCommand(code, true, params);
                 reset();
+                break;
             }
-            break;
+            case 2: {
+                if(params.size()<2){
+                    return null;
+                }
+                msg = new RegistrationCommand(code, false, params);
+                reset();
+                break;
+            }
             default:
                 msg = new Error(code, new LinkedList<>());
         }
