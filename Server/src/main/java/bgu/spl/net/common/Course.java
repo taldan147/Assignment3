@@ -8,15 +8,24 @@ public class Course {
     private String courseName;
     private List<Course> kdamCourses;
     private int maxNumOfStudents;
-    private int numOfRegiisteredStrudents;
+    private int numOfRegisteredStudents;
+    private boolean isInitialized;
 
-    public Course(int courseNum,int id, String courseName, List<Course> kdamCourses, int maxNumOfStudents){
+
+
+    public Course(int courseNum,int id, String courseName, List<Course> courses,int maxNumOfStudents){
         this.courseNum = courseNum;
         this.id = id;
         this.courseName = courseName;
-        this.kdamCourses = kdamCourses;
         this.maxNumOfStudents = maxNumOfStudents;
-        this.numOfRegiisteredStrudents = 0;
+        numOfRegisteredStudents=0;
+        this.kdamCourses=courses;
+        isInitialized=true;
+    }
+
+    public Course(int course) {
+        this.courseNum=course;
+        isInitialized=false;
     }
 
     public int getCourseNum() {
@@ -44,9 +53,13 @@ public class Course {
     }
 
     public void registerStudent(){
-        numOfRegiisteredStrudents++;
+        numOfRegisteredStudents++;
     }
     public void unregisterStudent(){
-        numOfRegiisteredStrudents--;
+        numOfRegisteredStudents--;
+    }
+
+    public boolean isInitialized(){
+        return isInitialized;
     }
 }

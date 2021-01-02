@@ -20,11 +20,13 @@ import java.util.*;
 public class Database {
 	private Set<User> users;
 	private Set<Course> courses;
+	private int count;
 
 	//to prevent user from creating new Database
 	private Database() {
 		users = new HashSet<>();
 		courses = new HashSet<>();
+		count=0;
 	}
 
 	/**
@@ -38,7 +40,7 @@ public class Database {
 	 * loades the courses from the file path specified 
 	 * into the Database, returns true if successful.
 	 */
-	boolean initialize(String coursesFilePath) {
+	public boolean initialize(String coursesFilePath) {
 		File courses=new File(coursesFilePath);
 		try (Scanner myReader = new Scanner(courses)) {
 			while(myReader.hasNextLine()){
@@ -46,11 +48,31 @@ public class Database {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		}
-		return false;
+		mergeCourses();
+		return true;
 	}
 
-	private void addToDB(List<String> parsedLine) {
+	private void mergeCourses() {
+		for(Course course:courses){
+			if(!course.isInitialized()){
+				if(courses.stream().anyMatch(course1 ->
+						course1.isInitialized()
+								&&course1.getCourseNum()==course.getCourseNum())){
+					courses.remove(course);
+				}
+			}
+		}
+	}
+
+	private void addToDB(List<String> parsedLines) {
+		LinkedList<Course> kdams=new LinkedList<Course>();
+		String[] kdamStrings=parsedLines.get(2).substring(1,parsedLines.get(2).length()-1).split(",");
+		for (String cour:kdamStrings){
+			kdams.add(new Course(Integer.parseInt(cour)));
+		}
+		courses.add(new Course(Integer.parseInt(parsedLines.get(0)),count,parsedLines.get(1),kdams,Integer.parseInt(parsedLines.get(3))));
 	}
 
 	private LinkedList<String> parseLine(String nextLine) {
