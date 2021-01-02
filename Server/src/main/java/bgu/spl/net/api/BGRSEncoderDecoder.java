@@ -47,8 +47,9 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
 
     private Message decodeQuery(byte nextByte) {
         Message msg;
+        queryCode = opCodeDecoder.decodeNextByte(nextByte);
         if (queryCode == null) {
-            queryCode = opCodeDecoder.decodeNextByte(nextByte);
+
             return null;
         }
         switch (code) {
@@ -65,6 +66,7 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
 
             default:
                 msg = new Error(code, new LinkedList<>());
+                reset();
         }
         return msg;
 
@@ -115,6 +117,7 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
 
             default:
                 msg = new Error(code, new LinkedList<>());
+                reset();
         }
         return msg;
     }
