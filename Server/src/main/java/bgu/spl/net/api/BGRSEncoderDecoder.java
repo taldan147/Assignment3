@@ -1,8 +1,10 @@
 package bgu.spl.net.api;
 
 import bgu.spl.net.commands.LogInCommand;
+import bgu.spl.net.commands.LogOutCommand;
 import bgu.spl.net.commands.RegistrationCommand;
 import bgu.spl.net.commands.Error;
+import bgu.spl.net.commands.base.ClientMessage;
 import bgu.spl.net.commands.base.Message;
 import bgu.spl.net.impl.echo.LineMessageEncoderDecoder;
 
@@ -87,6 +89,13 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                     return null;
                 }
                 msg = new LogInCommand(code, params);
+                ClientMessage curr = (ClientMessage)msg;
+                curr.setUsername(params.get(0));
+                reset();
+                break;
+            }
+            case 4:{
+                msg = new LogOutCommand(code, params);
                 reset();
                 break;
             }

@@ -2,6 +2,7 @@ package bgu.spl.net.api;
 
 import bgu.spl.net.commands.LogInCommand;
 
+import bgu.spl.net.commands.LogOutCommand;
 import bgu.spl.net.commands.RegistrationCommand;
 import bgu.spl.net.commands.base.ClientMessage;
 import bgu.spl.net.commands.Error;
@@ -13,6 +14,7 @@ import java.util.LinkedList;
 public class BenGurionRegistrationProtocol implements MessagingProtocol<Message> {
     private String userName;
     private boolean loggedIn;
+    private boolean shouldTerminate = false;
 
     @Override
     public Message process(Message msg) {
@@ -21,7 +23,14 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
         if (message instanceof LogInCommand) {
             userName = (message).getUsername();
             loggedIn = true;
-        } else {
+        }
+        else if (message instanceof LogOutCommand){
+            loggedIn = false;
+            message.setUsername(userName);
+            shouldTerminate = true;
+
+        }
+        else {
             if (!loggedIn && !(message instanceof RegistrationCommand)) {
                 return new Error(message.getOpcode(), new LinkedList<String>());
             }
@@ -32,6 +41,6 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
 
     @Override
     public boolean shouldTerminate() {
-        return false;
+        return shouldTerminate;
     }
 }

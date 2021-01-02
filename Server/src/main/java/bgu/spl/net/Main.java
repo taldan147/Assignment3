@@ -7,7 +7,7 @@ import bgu.spl.net.srv.Server;
 
 public class Main {
     public static void main(String[] args) {
-        Database.getInstance().initialize("src/main/Courses.txt");
+//        Database.getInstance().initialize("src/main/Courses.txt");
 
 // you can use any server...
 //        Server.threadPerClient(
