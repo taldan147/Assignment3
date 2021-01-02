@@ -8,8 +8,7 @@ public class Course {
     private String courseName;
     private List<Course> kdamCourses;
     private int maxNumOfStudents;
-    private int numOfRegiisteredStrudents;
-    private List<Student> registeredStudents;
+    private int numOfRegisteredStudents;
     private boolean isInitialized;
 
 
@@ -19,6 +18,7 @@ public class Course {
         this.id = id;
         this.courseName = courseName;
         this.maxNumOfStudents = maxNumOfStudents;
+        numOfRegisteredStudents=0;
         this.kdamCourses=courses;
         isInitialized=true;
     }
@@ -53,10 +53,10 @@ public class Course {
     }
 
     public void registerStudent(){
-        numOfRegiisteredStrudents++;
+        numOfRegisteredStudents++;
     }
     public void unregisterStudent(){
-        numOfRegiisteredStrudents--;
+        numOfRegisteredStudents--;
     }
 
     public boolean isInitialized(){
