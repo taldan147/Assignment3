@@ -40,6 +40,8 @@ public class Course {
         return courseName;
     }
 
+    public boolean hasAvailable(){ return numOfRegisteredStudents < maxNumOfStudents;}
+
     public int getMaxNumOfStudents() {
         return maxNumOfStudents;
     }
