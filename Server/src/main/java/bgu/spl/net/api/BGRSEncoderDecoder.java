@@ -14,11 +14,16 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
     private final OpCodeDecoder opCodeDecoder = new OpCodeDecoder();
     private final LineMessageEncoderDecoder lineDecoder = new LineMessageEncoderDecoder();
     private boolean messageReady = false;
-    private LinkedList<String> params=new LinkedList<>();
-    private Set<Integer> queries= new HashSet<Integer>(){{add(5);add(6);add(8);add(7);}};
+    private LinkedList<String> params = new LinkedList<>();
+    private Set<Integer> queries = new HashSet<Integer>() {{
+        add(5);
+        add(6);
+        add(8);
+        add(7);
+    }};
     Short code = null;
-    String param=null;
-    Short queryCode=null;
+    String param = null;
+    Short queryCode = null;
 
     @Override
     public Message decodeNextByte(byte nextByte) {
@@ -27,15 +32,15 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
             code = opCodeDecoder.decodeNextByte(nextByte);
             return null;
         }
-        if(queries.contains(code.intValue())){
+        if (queries.contains(code.intValue())) {
             return decodeQuery(nextByte);
         }
         param = lineDecoder.decodeNextByte(nextByte);
         if (param == null)
             return null;
-        else{
+        else {
             params.add(param);
-            param=null;
+            param = null;
         }
         return parse(code);
     }
@@ -46,9 +51,14 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
             queryCode = opCodeDecoder.decodeNextByte(nextByte);
             return null;
         }
-        switch (code){
+        switch (code) {
             case 5: {
                 msg = new RegCourseCommand(code, queryCode);
+                reset();
+                break;
+            }
+            case 6: {
+                msg = new KdamCheckCommand(code, queryCode);
                 reset();
                 break;
             }
@@ -59,11 +69,12 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
         return msg;
 
     }
-    private void reset(){
+
+    private void reset() {
         params = new LinkedList<>();
         code = null;
-        param=null;
-        queryCode=null;
+        param = null;
+        queryCode = null;
 //        opCodeDecoder.resetFinished();
     }
 
@@ -71,7 +82,7 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
         Message msg;
         switch (code) {
             case 1: {
-                if(params.size()<2){
+                if (params.size() < 2) {
                     return null;
                 }
                 msg = new RegistrationCommand(code, true, params);
@@ -79,28 +90,29 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                 break;
             }
             case 2: {
-                if(params.size()<2){
+                if (params.size() < 2) {
                     return null;
                 }
                 msg = new RegistrationCommand(code, false, params);
                 reset();
                 break;
             }
-            case 3:{
-                if(params.size()<2){
+            case 3: {
+                if (params.size() < 2) {
                     return null;
                 }
                 msg = new LogInCommand(code, params);
-                ClientMessage curr = (ClientMessage)msg;
+                ClientMessage curr = (ClientMessage) msg;
                 curr.setUsername(params.get(0));
                 reset();
                 break;
             }
-            case 4:{
+            case 4: {
                 msg = new LogOutCommand(code, params);
                 reset();
                 break;
             }
+
             default:
                 msg = new Error(code, new LinkedList<>());
         }

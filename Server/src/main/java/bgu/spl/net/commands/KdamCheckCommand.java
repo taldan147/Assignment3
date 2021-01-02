@@ -9,7 +9,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class KdamCheckCommand extends QueryMessage {
-    protected KdamCheckCommand(short opcode, short queryNumber) {
+    public KdamCheckCommand(short opcode, short queryNumber) {
         super(opcode, queryNumber);
     }
 
