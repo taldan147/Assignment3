@@ -16,35 +16,41 @@ void SocketListener::run(){
         // Get back an answer: by using the expected number of bytes (len bytes + newline delimiter)
         // We could also use: connectionHandler.getline(answer) and then get the answer without the newline char at the end
         char bytes[2];
+        sleep(2);
+
+
 
         if (!_handle->getBytes(bytes, 2)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
-
         short code = bytes[0];
         short origcode=bytes[1];
 
 
-        if(code==12){
-            std::cout<<"ACK "<<origcode<<std::endl;
-        }
-        else{
-            std::cout << "ERROR " << origcode << answer << std::endl;
-        }
-
         // A C string must end with a 0 char delimiter.  When we filled the answer buffer from the socket
         // we filled up to the \n char - we must make sure now that a 0 char is also present. So we truncate last character.
-//        if (!_handle->getLine(answer)) {
-//            std::cout << "Disconnected. Exiting...\n" << std::endl;
-//            break;
-//        }
-//        int len=answer.size();
-//        answer.resize(len - 1);
+        if (code == 12 && !_handle->getLine(answer)) {
+            std::cout << "Disconnected. Exiting...\n" << std::endl;
+            break;
+        }
+
+        if(code==13){
+            std::cout<<"ERROR "<<origcode << std::endl;
+        }
+        else{
+            std::cout << "ACK " << origcode;
+            int len=answer.size();
+            answer.resize(len - 1);
 //        std::cout << "Reply: " << answer << " " << len << " bytes " << std::endl << std::endl;
-//        if (answer == "bye") {
-//            std::cout << "Exiting...\n" << std::endl;
-//            break;
-//        }
+            std::cout  << " " << answer <<  std::endl << std::endl;
+            if (answer == "bye") {
+                std::cout << "Exiting...\n" << std::endl;
+                break;
+            }
+        }
+
+
+
     }
 }

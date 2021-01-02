@@ -31,7 +31,9 @@ public class RegistrationCommand extends ClientMessage {
         else
             toRegister = new Student(username,password);
         database.registerUser(toRegister);
-        return new Ack(opcode, new LinkedList<>());
+        List<String> toSend = new LinkedList<>();
+        toSend.add("Success");
+        return new Ack(opcode, toSend);
     }
 
 
