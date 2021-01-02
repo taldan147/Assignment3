@@ -18,93 +18,94 @@ import java.util.*;
  * You can add private fields and methods to this class as you see fit.
  */
 public class Database {
-	private Set<User> users;
-	private Set<Course> courses;
-	private int count;
+    private Set<User> users;
+    private Set<Course> courses;
+    private int count;
 
-	//to prevent user from creating new Database
-	private Database() {
-		users = new HashSet<>();
-		courses = new HashSet<>();
-		count=0;
-	}
+    //to prevent user from creating new Database
+    private Database() {
+        users = new HashSet<>();
+        courses = new HashSet<>();
+        count = 0;
+    }
 
-	/**
-	 * Retrieves the single instance of this class.
-	 */
-	public static Database getInstance() {
-		return DatabaseHolder.instance;
-	}
-	
-	/**
-	 * loades the courses from the file path specified 
-	 * into the Database, returns true if successful.
-	 */
-	public boolean initialize(String coursesFilePath) {
-		File courses=new File(coursesFilePath);
-		try (Scanner myReader = new Scanner(courses)) {
-			while(myReader.hasNextLine()){
-				addToDB(parseLine(myReader.nextLine()));
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return false;
-		}
-		mergeCourses();
-		return true;
-	}
+    /**
+     * Retrieves the single instance of this class.
+     */
+    public static Database getInstance() {
+        return DatabaseHolder.instance;
+    }
 
-	private void mergeCourses() {
-		for(Course course:courses){
-			if(!course.isInitialized()){
-				if(courses.stream().anyMatch(course1 ->
-						course1.isInitialized()
-								&&course1.getCourseNum()==course.getCourseNum())){
-					courses.remove(course);
-				}
-			}
-		}
-	}
+    /**
+     * loades the courses from the file path specified
+     * into the Database, returns true if successful.
+     */
+    public boolean initialize(String coursesFilePath) {
+        File courses = new File(coursesFilePath);
+        try (Scanner myReader = new Scanner(courses)) {
+            while (myReader.hasNextLine()) {
+                addToDB(parseLine(myReader.nextLine()));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        mergeCourses();
+        return true;
+    }
 
-	private void addToDB(List<String> parsedLines) {
-		LinkedList<Course> kdams=new LinkedList<Course>();
-		String[] kdamStrings=parsedLines.get(2).substring(1,parsedLines.get(2).length()-1).split(",");
-		for (String cour:kdamStrings){
-			kdams.add(new Course(Integer.parseInt(cour)));
-		}
-		courses.add(new Course(Integer.parseInt(parsedLines.get(0)),count,parsedLines.get(1),kdams,Integer.parseInt(parsedLines.get(3))));
-	}
+    private void mergeCourses() {
+        for (Course course : courses) {
+            if (!course.isInitialized()) {
+                if (courses.stream().anyMatch(course1 ->
+                        course1.isInitialized()
+                                && course1.getCourseNum() == course.getCourseNum())) {
+                    courses.remove(course);
+                }
+            }
+        }
+    }
 
-	private LinkedList<String> parseLine(String nextLine) {
-		String[] split=nextLine.split("\\|");
-		return new LinkedList<>(Arrays.asList(split));
-	}
+    private void addToDB(List<String> parsedLines) {
+        LinkedList<Course> kdams = new LinkedList<Course>();
+        String[] kdamStrings = parsedLines.get(2).substring(1, parsedLines.get(2).length() - 1).split(",");
+        for (String cour : kdamStrings) {
+            if (!cour.equals("")) {
+                kdams.add(new Course(Integer.parseInt(cour)));
+            }
+        }
+        courses.add(new Course(Integer.parseInt(parsedLines.get(0)), count, parsedLines.get(1), kdams, Integer.parseInt(parsedLines.get(3))));
+    }
 
-	public Course getCourse(int courseNum){
-		return courses.stream().filter(course -> course.getCourseNum() == courseNum).findFirst().get();
-	}
+    private LinkedList<String> parseLine(String nextLine) {
+        String[] split = nextLine.split("\\|");
+        return new LinkedList<>(Arrays.asList(split));
+    }
 
-	public User getUser(String username){
-		return  users.stream().filter(user -> user.getUserName().equals(username)).findFirst().get();
-	}
+    public Course getCourse(int courseNum) {
+        return courses.stream().filter(course -> course.getCourseNum() == courseNum).findFirst().get();
+    }
 
-	public boolean doesUserExists(String username){
-		for (User user : users){
-			if (user.getUserName().equals(username))
-				return true;
-		}
-		return false;
-	}
+    public User getUser(String username) {
+        return users.stream().filter(user -> user.getUserName().equals(username)).findFirst().get();
+    }
 
-	public void registerUser(User user){
-		users.add(user);
-	}
+    public boolean doesUserExists(String username) {
+        for (User user : users) {
+            if (user.getUserName().equals(username))
+                return true;
+        }
+        return false;
+    }
 
-	private static class DatabaseHolder{
-		private static Database instance = new Database();
-	}
+    public void registerUser(User user) {
+        users.add(user);
+    }
 
-	public String getPassword(String user){ return getUser(user).getPassword();}
+    private static class DatabaseHolder {
+        private static Database instance = new Database();
+    }
+
 
 }
 
