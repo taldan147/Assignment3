@@ -67,7 +67,8 @@ public class Course {
         students.sort(Comparator.comparing(String::toString));
         numOfRegisteredStudents++;
     }
-    public void unregisterStudent(){
+    public void unregisterStudent(String student){
+        students.remove(student);
         numOfRegisteredStudents--;
     }
 

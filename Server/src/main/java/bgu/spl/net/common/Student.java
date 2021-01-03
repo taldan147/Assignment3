@@ -25,7 +25,7 @@ public class Student extends User {
     }
     public void unregisterCourse(Course course){
         registeredCourses.remove(course);
-        course.unregisterStudent();
+        course.unregisterStudent(userName);
     }
 
     public boolean hasAllKdam(short courseNum){

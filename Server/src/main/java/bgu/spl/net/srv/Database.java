@@ -136,7 +136,10 @@ public class Database {
         private static Database instance = new Database();
     }
 
-
+    public void unregisterCourse(Student student, Course course){
+        student.unregisterCourse(course);
+        course.unregisterStudent(student.getUserName());
+    }
 }
 
 

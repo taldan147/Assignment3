@@ -20,6 +20,7 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
         add(6);
         add(7);
         add(9);
+        add(10);
     }};
     Short code = null;
     String param = null;
@@ -70,6 +71,11 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
             }
             case 9: {
                 msg = new IsRegisteredCommand(code, queryCode);
+                reset();
+                break;
+            }
+            case 10: {
+                msg = new UnregisterCommand(code, queryCode);
                 reset();
                 break;
             }
