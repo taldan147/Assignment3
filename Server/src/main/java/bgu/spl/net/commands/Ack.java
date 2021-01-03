@@ -22,7 +22,7 @@ public class Ack extends ServerAnswer {
 //        toReturn[0]=(byte)12;
 //        toReturn[1]=(byte)opcode;
         for (String str:parameters) {
-            toReturn=appendByteArray(toReturn,(str+", ").getBytes(StandardCharsets.UTF_8));
+            toReturn=appendByteArray(toReturn,(str).getBytes(StandardCharsets.UTF_8));
         }
         toReturn = appendByteArray(toReturn,"\0".getBytes(StandardCharsets.UTF_8));
         return toReturn;

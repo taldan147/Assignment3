@@ -32,6 +32,8 @@ public class Course {
         isInitialized=false;
     }
 
+
+
     public int getCourseNum() {
         return courseNum;
     }

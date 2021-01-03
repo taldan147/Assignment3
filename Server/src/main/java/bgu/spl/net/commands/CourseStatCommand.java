@@ -20,9 +20,9 @@ public class CourseStatCommand extends QueryMessage {
             return new Error(opcode, new LinkedList<>());
         List<String> params = new LinkedList<>();
         Course course = arg.getCourse(query);
-        params.add("Course: (" + course.getCourseNum()+ ") "+ course.getCourseName()+ "\n");
-        params.add("Seats Available: " + course.getNumOfRegisteredStudents() + "/" + course.getMaxNumOfStudents() + "\n");
-        params.add("Students Registered: " + course.getStudentsStrList());
+        params.add("\nCourse: (" + course.getCourseNum()+ ") "+ course.getCourseName() );
+        params.add("\nSeats Available: " + course.getNumOfRegisteredStudents() + "/" + course.getMaxNumOfStudents());
+        params.add("\nStudents Registered: " + course.getStudentsStrList());
         return new Ack(opcode, params);
     }
 }
