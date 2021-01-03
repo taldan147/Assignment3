@@ -90,6 +90,7 @@ public class Database {
             }
         }
         courses.add(new Course(Integer.parseInt(parsedLines.get(0)), count, parsedLines.get(1), kdams, Integer.parseInt(parsedLines.get(3))));
+        count++;
     }
 
     private LinkedList<String> parseLine(String nextLine) {

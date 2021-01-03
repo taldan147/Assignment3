@@ -56,36 +56,31 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
         switch (code) {
             case 5: {
                 msg = new RegCourseCommand(code, queryCode);
-                reset();
                 break;
             }
             case 6: {
                 msg = new KdamCheckCommand(code, queryCode);
-                reset();
                 break;
             }
             case 7: {
                 msg = new CourseStatCommand(code, queryCode);
-                reset();
                 break;
             }
+
             case 9: {
                 msg = new IsRegisteredCommand(code, queryCode);
-                reset();
                 break;
             }
             case 10: {
                 msg = new UnregisterCommand(code, queryCode);
-                reset();
                 break;
             }
 
             default:
                 msg = new Error(code, new LinkedList<>());
-                reset();
         }
+        reset();
         return msg;
-
     }
 
     private void reset() {
@@ -104,7 +99,6 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                     return null;
                 }
                 msg = new RegistrationCommand(code, true, params);
-                reset();
                 break;
             }
             case 2: {
@@ -112,7 +106,6 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                     return null;
                 }
                 msg = new RegistrationCommand(code, false, params);
-                reset();
                 break;
             }
             case 3: {
@@ -122,19 +115,25 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                 msg = new LogInCommand(code, params);
                 ClientMessage curr = (ClientMessage) msg;
                 curr.setUsername(params.get(0));
-                reset();
                 break;
             }
             case 4: {
                 msg = new LogOutCommand(code, params);
-                reset();
+                break;
+            }
+            case 8:{
+                msg= new StudentStatCommand(code,params.get(0));
+                break;
+            }
+            case 11:{
+                msg= new MyCoursesCommand(code,params.get(0));
                 break;
             }
 
             default:
                 msg = new Error(code, new LinkedList<>());
-                reset();
         }
+        reset();
         return msg;
     }
 
