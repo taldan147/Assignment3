@@ -37,6 +37,8 @@ public class Student extends User {
         return true;
     }
 
+    public boolean isRegistered(Course course){ return registeredCourses.contains(course);}
+
 
 
 

@@ -18,8 +18,8 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
     private Set<Integer> queries = new HashSet<Integer>() {{
         add(5);
         add(6);
-        add(8);
         add(7);
+        add(9);
     }};
     Short code = null;
     String param = null;
@@ -63,10 +63,16 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                 reset();
                 break;
             }
-            case 7:
+            case 7: {
                 msg = new CourseStatCommand(code, queryCode);
                 reset();
                 break;
+            }
+            case 9: {
+                msg = new IsRegisteredCommand(code, queryCode);
+                reset();
+                break;
+            }
 
             default:
                 msg = new Error(code, new LinkedList<>());
