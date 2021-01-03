@@ -22,7 +22,6 @@ public class Student extends User {
 
     public void registerCourse(Course registerCourse) {
         registeredCourses.add(registerCourse);
-        registerCourse.registerStudent();
     }
     public void unregisterCourse(Course course){
         registeredCourses.remove(course);
@@ -37,6 +36,7 @@ public class Student extends User {
         }
         return true;
     }
+
 
 
 

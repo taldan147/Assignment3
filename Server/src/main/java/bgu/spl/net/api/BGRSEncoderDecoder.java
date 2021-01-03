@@ -63,6 +63,10 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                 reset();
                 break;
             }
+            case 7:
+                msg = new CourseStatCommand(code, queryCode);
+                reset();
+                break;
 
             default:
                 msg = new Error(code, new LinkedList<>());

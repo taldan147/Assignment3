@@ -110,7 +110,7 @@ public class Database {
     	Student student = (Student) getUser(username);
     	Course courseToRegister = getCourse(courseNum);
     	student.registerCourse(courseToRegister);
-    	courseToRegister.registerStudent();
+    	courseToRegister.registerStudent(username);
 	}
 
     public void registerUser(User user) {

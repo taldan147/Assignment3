@@ -19,18 +19,20 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
     @Override
     public Message process(Message msg) {
         Message com;
+        if (msg instanceof Error) {
+            return msg;
+        }
         ClientMessage message = (ClientMessage) msg;
+
         if (message instanceof LogInCommand) {
             userName = (message).getUsername();
             loggedIn = true;
-        }
-        else if (message instanceof LogOutCommand){
+        } else if (message instanceof LogOutCommand) {
             loggedIn = false;
             message.setUsername(userName);
             shouldTerminate = true;
 
-        }
-        else {
+        } else {
             if (!loggedIn && !(message instanceof RegistrationCommand)) {
                 return new Error(message.getOpcode(), new LinkedList<String>());
             }

@@ -1,6 +1,8 @@
 package bgu.spl.net.common;
 
-import java.util.List;
+//import sun.awt.image.ImageWatched;
+
+import java.util.*;
 
 public class Course {
     private int courseNum;
@@ -10,6 +12,7 @@ public class Course {
     private int maxNumOfStudents;
     private int numOfRegisteredStudents;
     private boolean isInitialized;
+    private List<String> students;
 
 
 
@@ -21,6 +24,7 @@ public class Course {
         numOfRegisteredStudents=0;
         this.kdamCourses=courses;
         isInitialized=true;
+        students = new ArrayList<>();
     }
 
     public Course(int course) {
@@ -50,11 +54,15 @@ public class Course {
         this.maxNumOfStudents = maxNumOfStudents;
     }
 
+    public int getNumOfRegisteredStudents(){ return numOfRegisteredStudents;}
+
     public List<Course> getKdamCourses() {
         return kdamCourses;
     }
 
-    public void registerStudent(){
+    public void registerStudent(String student){
+        students.add(student);
+        students.sort(Comparator.comparing(String::toString));
         numOfRegisteredStudents++;
     }
     public void unregisterStudent(){
@@ -63,5 +71,9 @@ public class Course {
 
     public boolean isInitialized(){
         return isInitialized;
+    }
+
+    public String getStudentsStrList(){
+        return students.toString();
     }
 }

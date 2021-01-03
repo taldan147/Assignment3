@@ -36,6 +36,7 @@ int InputParser::parse(std::string line, char bytes[]) {
         }
     }
     if (query) {
+        diff = 4;
         short queryTarget = boost::lexical_cast<short>(line);
         bytes[2] = ((queryTarget >> 8) & 0xFF);
         bytes[3] = (queryTarget & 0xFF);

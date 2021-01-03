@@ -1,6 +1,7 @@
 package bgu.spl.net.commands;
 
 import bgu.spl.net.commands.base.QueryMessage;
+import bgu.spl.net.common.Admin;
 import bgu.spl.net.common.Student;
 import bgu.spl.net.srv.Database;
 
@@ -15,7 +16,7 @@ public class RegCourseCommand extends QueryMessage {
     @Override
     public Serializable execute(Database arg) {
         // if student is logoff username is null
-        if (username == null || !arg.doesCourseExists(query) || !arg.getCourse(query).hasAvailable() ||
+        if (username == null || arg.getUser(username) instanceof Admin || !arg.doesCourseExists(query) || !arg.getCourse(query).hasAvailable() ||
         !((Student)arg.getUser(username)).hasAllKdam(query))
             return new Error(opcode, new LinkedList<>());
         arg.registerToCourse(username, query);
