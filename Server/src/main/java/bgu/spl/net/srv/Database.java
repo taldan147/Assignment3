@@ -8,6 +8,7 @@ import bgu.spl.net.common.User;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Passive object representing the Database where all courses and users are stored.
@@ -51,10 +52,24 @@ public class Database {
             return false;
         }
         mergeCourses();
+        removeRedundantCourses();
         return true;
     }
 
     private void mergeCourses() {
+        for (Course course : courses) {
+            if (course.isInitialized()) {
+                List<Course> kdamCourses=course.getKdamCourses();
+                for(int i=0;i<kdamCourses.size();i++){
+                    Course finalKdam = kdamCourses.get(i);
+                    kdamCourses.set(i,courses.stream().filter(course1 -> course1.getCourseNum()== finalKdam.getCourseNum()&&course1.isInitialized()).collect(Collectors.toList()).get(0));
+                }
+
+            }
+        }
+    }
+
+    private void removeRedundantCourses() {
         for (Course course : courses) {
             if (!course.isInitialized()) {
                 if (courses.stream().anyMatch(course1 ->
