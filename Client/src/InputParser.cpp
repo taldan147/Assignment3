@@ -4,7 +4,9 @@
 
 #include "../include/InputParser.h"
 
-InputParser::InputParser() : _opCodes({}), _queries({5, 6, 7, 9, 10}) {
+InputParser::InputParser(int id, std::mutex &mutex, ConnectionHandler *handler) : _opCodes({}),
+                                                                                  _queries({5, 6, 7, 9, 10}), _id(id),
+                                                                                  _mutex(mutex), _handle(handler) {
     _opCodes["ADMINREG"] = 1;
     _opCodes["STUDENTREG"] = 2;
     _opCodes["LOGIN"] = 3;
@@ -22,7 +24,7 @@ InputParser::InputParser() : _opCodes({}), _queries({5, 6, 7, 9, 10}) {
 
 int InputParser::parse(std::string line, char bytes[]) {
     int diff;
-    bool query=false;
+    bool query = false;
     std::size_t pos = line.find_first_of(" ");
     diff = line.size() - pos + 2;
     std::string op = line.substr(0, pos);
@@ -32,7 +34,7 @@ int InputParser::parse(std::string line, char bytes[]) {
     bytes[1] = (code & 0xFF);
     for (short queryCode:_queries) {
         if (code == queryCode) {
-            query=true;
+            query = true;
         }
     }
     if (query) {
@@ -56,5 +58,27 @@ void InputParser::changeDelimiter(char charArr[], int length) {
         if (charArr[i] == ' ')
             charArr[i] = '\0';
     }
+}
 
+void InputParser::run() {
+    while (1) {
+        const short bufsize = 1024;
+        char buf[bufsize];
+        std::cin.
+                getline(buf, bufsize
+        );
+        std::string line(buf);
+        int len = line.length();
+        char bytes[len];
+        int diff = parse(line, bytes);
+        if (!_handle->
+                sendBytes(bytes, diff
+        )) {
+            std::cout << "Disconnected. Exiting...\n" <<
+                      std::endl;
+            break;
+        }
+        std::cout << "Sent " << len + 1 << " bytes to server" << std::endl;
+
+    }
 }
