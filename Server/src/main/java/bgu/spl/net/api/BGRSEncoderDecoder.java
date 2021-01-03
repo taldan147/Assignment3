@@ -126,7 +126,7 @@ public class BGRSEncoderDecoder implements MessageEncoderDecoder<Message> {
                 break;
             }
             case 11:{
-                msg= new MyCoursesCommand(code,params.get(0));
+                msg= new MyCoursesCommand(code);
                 break;
             }
 
