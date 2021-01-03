@@ -21,7 +21,7 @@ public class CourseStatCommand extends QueryMessage {
         List<String> params = new LinkedList<>();
         Course course = arg.getCourse(query);
         params.add("\nCourse: (" + course.getCourseNum()+ ") "+ course.getCourseName() );
-        params.add("\nSeats Available: " + course.getNumOfRegisteredStudents() + "/" + course.getMaxNumOfStudents());
+        params.add("\nSeats Available: " + (course.getMaxNumOfStudents()-course.getNumOfRegisteredStudents())+ "/" + course.getMaxNumOfStudents());
         params.add("\nStudents Registered: " + course.getStudentsStrList());
         return new Ack(opcode, params);
     }
