@@ -7,7 +7,7 @@ import bgu.spl.net.srv.Server;
 
 public class TPCMain {
     public static void main(String[] args) {
-        Database.getInstance().initialize("src/main/Courses.txt");
+        Database.getInstance().initialize("Courses.txt");
         Server.threadPerClient(
                 Integer.parseInt(args[0]), //port
                 BenGurionRegistrationProtocol::new, //protocol factory
