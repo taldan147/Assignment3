@@ -75,7 +75,6 @@ void InputParser::run() {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
-        std::cout << "Sent " << len + 1 << " bytes to server" << std::endl;
 
     }
 }
