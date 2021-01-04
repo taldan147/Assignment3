@@ -4,7 +4,7 @@
 
 #include "../include/InputParser.h"
 
-InputParser::InputParser(int id, std::mutex &mutex, ConnectionHandler *handler) : _opCodes({}),
+InputParser::InputParser(int id, std::mutex &mutex, ConnectionHandler &handler) : _opCodes({}),
                                                                                   _queries({5, 6, 7, 9, 10}), _id(id),
                                                                                   _mutex(mutex), _handle(handler) {
     _opCodes["ADMINREG"] = 1;
@@ -71,11 +71,8 @@ void InputParser::run() {
         int len = line.length();
         char bytes[len];
         int diff = parse(line, bytes);
-        if (!_handle->
-                sendBytes(bytes, diff
-        )) {
-            std::cout << "Disconnected. Exiting...\n" <<
-                      std::endl;
+        if (!_handle.sendBytes(bytes, diff)) {
+            std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
         std::cout << "Sent " << len + 1 << " bytes to server" << std::endl;

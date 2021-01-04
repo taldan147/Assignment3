@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     std::mutex mutex;
 
     SocketListener listener(1, mutex, &connectionHandler);
-    InputParser parser(1, mutex, &connectionHandler);
+    InputParser parser(1, mutex, connectionHandler);
 
     boost::thread userInput (&InputParser::run,&parser);
     boost::thread server (&SocketListener::run, &listener);

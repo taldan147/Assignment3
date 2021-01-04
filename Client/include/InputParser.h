@@ -21,9 +21,9 @@ private:
     std::vector<short> _queries;
     int _id;
     std::mutex & _mutex;
-    ConnectionHandler* _handle;
+    ConnectionHandler& _handle;
 public:
-    InputParser(int id, std::mutex& mutex, ConnectionHandler *handler);
+    InputParser(int id, std::mutex& mutex, ConnectionHandler &handler);
 //    std::string Parse(std::string line);
     int parse(std::string line, char bytes[]);
     void changeDelimiter(char charArr[], int len);
