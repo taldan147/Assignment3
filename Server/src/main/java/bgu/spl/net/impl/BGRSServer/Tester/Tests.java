@@ -205,7 +205,7 @@ public class Tests implements Runnable {
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
             CountDownLatch threadsEnded = new CountDownLatch(numThreads);
-            for (int i = 0; i < numThreads; i++) {
+            for (int i = 0; i < 20; i++) {
                 int tempI = i;
                 new Thread(() -> {
                     try {
@@ -670,8 +670,8 @@ public class Tests implements Runnable {
 //            testAnswers.add(testRegistrationSameUser());
 //            testAnswers.add(testLoginMultipleSameUser());
            // testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
-            testAnswers.add(tryBulkStudentLogicalTests());
-//            testAnswers.add(tryBulkAdminLogicalTests());
+  //          testAnswers.add(tryBulkStudentLogicalTests());
+            testAnswers.add(tryBulkAdminLogicalTests());
 //            testAnswers.add(testRegisterCourseWithoutAnyKdam());
 //            testAnswers.add(testRegisterCourseWithKdam());
 //            testAnswers.add(testKdamCheck());

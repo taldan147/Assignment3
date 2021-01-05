@@ -1,10 +1,12 @@
 package bgu.spl.net.commands;
 
 import bgu.spl.net.commands.base.QueryMessage;
+import bgu.spl.net.common.Admin;
 import bgu.spl.net.common.Course;
 import bgu.spl.net.srv.Database;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,9 @@ public class KdamCheckCommand extends QueryMessage {
 
     @Override
     public Serializable execute(Database arg) {
+        if (arg.getUser(username)instanceof Admin){
+            return new Error(opcode,new LinkedList<>());
+        }
         return new Ack(opcode,arg.getCourse(query)
                 .getKdamCourses().stream()
                 .map(course

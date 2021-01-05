@@ -33,14 +33,14 @@ public class CommandProcessor {
         String response = "";
         try {
             do{
-                Thread.sleep(100);
+                Thread.sleep(500);
             }while(!consoleReader.isReadyToWrite());
 
             consoleWriter.write(command);
             consoleWriter.write("\n");
             consoleWriter.flush();
 
-            Thread.sleep(200);
+            Thread.sleep(500);
 
             if (command.contains("STUDENTSTAT") || command.contains("COURSESTAT"))
                 response = consoleReader.getAllResponse();
