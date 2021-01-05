@@ -22,8 +22,10 @@ int main(int argc, char *argv[]) {
     }
     std::mutex mutex;
 
-    SocketListener listener(1, mutex, &connectionHandler);
-    InputParser parser(1, mutex, connectionHandler);
+    std::atomic<bool> _running(true);
+
+    SocketListener listener(1, mutex, connectionHandler, _running);
+    InputParser parser(1, mutex, connectionHandler, _running);
 
     boost::thread userInput (&InputParser::run,&parser);
     boost::thread server (&SocketListener::run, &listener);
@@ -32,6 +34,7 @@ int main(int argc, char *argv[]) {
         sleep(1);
     }
 
-    userInput.interrupt();
+    userInput.join();
+    return 0;
     }
 

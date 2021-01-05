@@ -4,9 +4,9 @@
 
 #include "../include/SocketListener.h"
 
-SocketListener::SocketListener(int id, std::mutex &mutex, ConnectionHandler *handler) : _id(id), _mutex(mutex),
+SocketListener::SocketListener(int id, std::mutex &mutex, ConnectionHandler &handler, std::atomic<bool>& running) : _id(id), _mutex(mutex),
                                                                                         _handle(handler),
-                                                                                        _running(true) {}
+                                                                                        _running(running) {}
 
 void SocketListener::run() {
     while (1) {
@@ -18,7 +18,7 @@ void SocketListener::run() {
         // Get back an answer: by using the expected number of bytes (len bytes + newline delimiter)
         // We could also use: connectionHandler.getline(answer) and then get the answer without the newline char at the end
         char bytes[4];
-        if (!_handle->getBytes(bytes, 4)) {
+        if (!_handle.getBytes(bytes, 4)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             _mutex.lock();
             _running = false;
@@ -29,7 +29,7 @@ void SocketListener::run() {
         code += (short) (bytes[1] & 0xff);
         auto origcode = (short) ((bytes[2] & 0xff) << 8);
         origcode += (short) (bytes[3] & 0xff);
-        if (code == 12 && !_handle->getLine(answer)) {
+        if (code == 12 && !_handle.getLine(answer)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             _mutex.lock();
             _running = false;

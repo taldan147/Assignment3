@@ -11,6 +11,7 @@
 #include <boost/lexical_cast.hpp>
 #include <mutex>
 #include "../include/connectionHandler.h"
+#include <boost/thread.hpp>
 
 
 
@@ -22,8 +23,9 @@ private:
     int _id;
     std::mutex & _mutex;
     ConnectionHandler& _handle;
+    std::atomic<bool>& _running;
 public:
-    InputParser(int id, std::mutex& mutex, ConnectionHandler &handler);
+    InputParser(int id, std::mutex& mutex, ConnectionHandler &handler, std::atomic<bool> &running);
 //    std::string Parse(std::string line);
     int parse(std::string line, char bytes[]);
     void changeDelimiter(char charArr[], int len);

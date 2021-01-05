@@ -16,12 +16,12 @@ class SocketListener {
 private:
     int _id;
     std::mutex & _mutex;
-    ConnectionHandler* _handle;
-    std::atomic<bool> _running;
+    ConnectionHandler& _handle;
+    std::atomic<bool>& _running;
 public:
     void run();
     bool isRunning();
-    SocketListener(int id, std::mutex& mutex, ConnectionHandler *handler);
+    SocketListener(int id, std::mutex& mutex, ConnectionHandler &handler, std::atomic<bool>& running);
 };
 
 

@@ -4,9 +4,19 @@
 
 #include "../include/InputParser.h"
 
-InputParser::InputParser(int id, std::mutex &mutex, ConnectionHandler &handler) : _opCodes({}),
-                                                                                  _queries({5, 6, 7, 9, 10}), _id(id),
-                                                                                  _mutex(mutex), _handle(handler) {
+InputParser::InputParser(int id, std::mutex &mutex, ConnectionHandler &handler, std::atomic<bool> &running) : _opCodes(
+        {}),
+                                                                                                              _queries(
+                                                                                                                      {5,
+                                                                                                                       6,
+                                                                                                                       7,
+                                                                                                                       9,
+                                                                                                                       10}),
+                                                                                                              _id(id),
+                                                                                                              _mutex(mutex),
+                                                                                                              _handle(handler),
+                                                                                                              _running(
+                                                                                                                      running) {
     _opCodes["ADMINREG"] = 1;
     _opCodes["STUDENTREG"] = 2;
     _opCodes["LOGIN"] = 3;
@@ -18,9 +28,8 @@ InputParser::InputParser(int id, std::mutex &mutex, ConnectionHandler &handler) 
     _opCodes["ISREGISTERED"] = 9;
     _opCodes["UNREGISTER"] = 10;
     _opCodes["MYCOURSES"] = 11;
-
-
 }
+
 
 int InputParser::parse(std::string line, char bytes[]) {
     int diff;
@@ -61,12 +70,10 @@ void InputParser::changeDelimiter(char charArr[], int length) {
 }
 
 void InputParser::run() {
-    while (1) {
+    while (_running) {
         const short bufsize = 1024;
         char buf[bufsize];
-        std::cin.
-                getline(buf, bufsize
-        );
+        std::cin.getline(buf, bufsize);
         std::string line(buf);
         int len = line.length();
         char bytes[len];
@@ -75,6 +82,6 @@ void InputParser::run() {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
-
+        boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
     }
 }
