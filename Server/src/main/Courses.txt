@@ -1,5 +1,0 @@
-482|Swordsmanship for Heroes|[530,912]|2
-435|Swordsmanship: From Hero to King|[482,530,912]|1
-912|Advance Swordsmanship|[530]|5
-530|Intermediate Swordsmanship|[]|25
-215|Beginner Swordsmanship|[]|50

@@ -8,6 +8,7 @@ import bgu.spl.net.common.User;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -19,14 +20,16 @@ import java.util.stream.Collectors;
  * You can add private fields and methods to this class as you see fit.
  */
 public class Database {
-    private Set<User> users;
-    private Set<Course> courses;
+    private ConcurrentHashMap<String, User> users;
+    private ConcurrentHashMap<Integer, Course> courses;
+//    private Set<User> users;
+//    private Set<Course> courses;
     private int count;
 
     //to prevent user from creating new Database
     private Database() {
-        users = new HashSet<>();
-        courses = new HashSet<>();
+        users = new ConcurrentHashMap<String,User>();
+        courses = new ConcurrentHashMap<Integer,Course>();
         count = 0;
     }
 
@@ -57,12 +60,12 @@ public class Database {
     }
 
     private void mergeCourses() {
-        for (Course course : courses) {
+        for (Course course : courses.values()) {
             if (course.isInitialized()) {
                 List<Course> kdamCourses=course.getKdamCourses();
                 for(int i=0;i<kdamCourses.size();i++){
                     Course finalKdam = kdamCourses.get(i);
-                    kdamCourses.set(i,courses.stream().filter(course1 -> course1.getCourseNum()== finalKdam.getCourseNum()&&course1.isInitialized()).collect(Collectors.toList()).get(0));
+                    kdamCourses.set(i,courses.values().stream().filter(course1 -> course1.getCourseNum()== finalKdam.getCourseNum()&&course1.isInitialized()).collect(Collectors.toList()).get(0));
                 }
 
             }
@@ -70,9 +73,9 @@ public class Database {
     }
 
     private void removeRedundantCourses() {
-        for (Course course : courses) {
+        for (Course course : courses.values()) {
             if (!course.isInitialized()) {
-                if (courses.stream().anyMatch(course1 ->
+                if (courses.values().stream().anyMatch(course1 ->
                         course1.isInitialized()
                                 && course1.getCourseNum() == course.getCourseNum())) {
                     courses.remove(course);
@@ -89,7 +92,7 @@ public class Database {
                 kdams.add(new Course(Integer.parseInt(cour)));
             }
         }
-        courses.add(new Course(Integer.parseInt(parsedLines.get(0)), count, parsedLines.get(1), kdams, Integer.parseInt(parsedLines.get(3))));
+        courses.put(Integer.parseInt(parsedLines.get(0)),new Course(Integer.parseInt(parsedLines.get(0)), count, parsedLines.get(1), kdams, Integer.parseInt(parsedLines.get(3))));
         count++;
     }
 
@@ -99,27 +102,19 @@ public class Database {
     }
 
     public Course getCourse(int courseNum) {
-        return courses.stream().filter(course -> course.getCourseNum() == courseNum).findFirst().get();
+        return courses.get(courseNum);
     }
 
     public User getUser(String username) {
-        return users.stream().filter(user -> user.getUserName().equals(username)).findFirst().get();
+        return users.get(username);
     }
 
     public boolean doesUserExists(String username) {
-        for (User user : users) {
-            if (user.getUserName().equals(username))
-                return true;
-        }
-        return false;
+        return users.containsKey(username);
     }
 
-	public boolean doesCourseExists(short courseNum){
-    	for (Course course: courses){
-    		if (course.getCourseNum() == courseNum)
-    			return true;
-		}
-    	return false;
+	public boolean doesCourseExists(int courseNum){
+    	return courses.containsKey(courseNum);
 	}
 
     public void registerToCourse(String username, short courseNum){
@@ -130,7 +125,7 @@ public class Database {
 	}
 
     public void registerUser(User user) {
-        users.add(user);
+        users.put(user.getUserName(), user);
     }
 
     private static class DatabaseHolder {
