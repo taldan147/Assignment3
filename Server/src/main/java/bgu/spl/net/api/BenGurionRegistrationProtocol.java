@@ -33,7 +33,7 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
             shouldTerminate = true;
 
         } else {
-            if (!loggedIn && !(message instanceof RegistrationCommand)) {
+            if ((!loggedIn && !(message instanceof RegistrationCommand)) || (loggedIn && message instanceof RegistrationCommand)) {
                 return new Error(message.getOpcode(), new LinkedList<String>());
             }
             message.setUsername(userName);

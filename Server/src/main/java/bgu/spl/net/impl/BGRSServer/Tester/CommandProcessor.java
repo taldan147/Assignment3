@@ -50,6 +50,7 @@ public class CommandProcessor {
         }catch(Exception e){
             e.printStackTrace();
         }
+        System.out.println(response);
         return response;
     }
 }
