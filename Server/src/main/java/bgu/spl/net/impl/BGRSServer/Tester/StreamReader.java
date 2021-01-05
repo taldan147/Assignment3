@@ -2,6 +2,8 @@ package bgu.spl.net.impl.BGRSServer.Tester;
 
 import java.io.*;
 
+import static java.lang.Thread.sleep;
+
 public class StreamReader implements Runnable {
 
     private final   InputStream is;

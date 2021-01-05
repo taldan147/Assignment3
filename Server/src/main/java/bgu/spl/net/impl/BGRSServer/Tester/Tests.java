@@ -664,8 +664,8 @@ public class Tests implements Runnable {
 
             ArrayList<String> testAnswers = new ArrayList<>();
             testAnswers.add(testRegistrationSameUser());
-//            testAnswers.add(testLoginMultipleSameUser());
-//            testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
+            testAnswers.add(testLoginMultipleSameUser());
+            testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
 //            testAnswers.add(tryBulkStudentLogicalTests());
 //            testAnswers.add(tryBulkAdminLogicalTests());
 //            testAnswers.add(testRegisterCourseWithoutAnyKdam());

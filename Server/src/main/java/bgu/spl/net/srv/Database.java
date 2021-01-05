@@ -136,6 +136,8 @@ public class Database {
         student.unregisterCourse(course);
         course.unregisterStudent(student.getUserName());
     }
+
+    public ConcurrentHashMap<String,User> getUsers(){ return users; }
 }
 
 
