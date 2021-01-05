@@ -1,6 +1,9 @@
 package bgu.spl.net.srv;
 
 
+import bgu.spl.net.commands.Ack;
+import bgu.spl.net.commands.Error;
+import bgu.spl.net.common.Admin;
 import bgu.spl.net.common.Course;
 import bgu.spl.net.common.Student;
 import bgu.spl.net.common.User;
@@ -109,7 +112,7 @@ public class Database {
         return users.get(username);
     }
 
-    public boolean doesUserExists(String username) {
+    public synchronized boolean doesUserExists(String username) {
         return users.containsKey(username);
     }
 
@@ -124,8 +127,17 @@ public class Database {
     	courseToRegister.registerStudent(username);
 	}
 
-    public void registerUser(User user) {
-        users.put(user.getUserName(), user);
+    public synchronized boolean registerUser(String username, String password ,boolean isAdmin) {
+        User toRegister;
+        if (isAdmin)
+            toRegister = new Admin(username, password);
+        else
+            toRegister = new Student(username, password);
+        if (!doesUserExists(username)) {
+            users.putIfAbsent(username, toRegister);
+            return true;
+        }
+        return false;
     }
 
     private static class DatabaseHolder {

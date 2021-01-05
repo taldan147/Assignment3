@@ -25,9 +25,10 @@ public class Tests implements Runnable {
         return commandsProcessors;
     }
 
-    public String testRegistrationSameUser() {
+    public String testRegistrationSameUser() throws InterruptedException {
         String response = "";
         try {
+            Thread.sleep(1000);
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
 
@@ -64,6 +65,7 @@ public class Tests implements Runnable {
     public String testLoginMultipleSameUser() {
         String response = "";
         try {
+            Thread.sleep(1000);
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
 
@@ -101,6 +103,7 @@ public class Tests implements Runnable {
     public String testRegisLoginLogoutMultipleDifferentUser() {
         String response = "";
         try {
+            Thread.sleep(3000);
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
 
@@ -136,12 +139,13 @@ public class Tests implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return response;
     }
 
     String tryBulkStudentLogicalTests() {
         String response = "";
-        try {
+        try {Thread.sleep(1000);
             Course p = null;
             for (Course s : courses) {
                 if (s.getNumCourseKdam() == 0)  //Choose an active course I can try and get course stat for as a student
@@ -196,7 +200,7 @@ public class Tests implements Runnable {
 
     String tryBulkAdminLogicalTests() {
         String response = "";
-        try {
+        try {Thread.sleep(1000);
             Course p = getCourseWithNoKdams();
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
@@ -246,7 +250,7 @@ public class Tests implements Runnable {
 
     public String testRegisterCourseWithoutAnyKdam() {
         String response = "";
-        try {
+        try {Thread.sleep(1000);
             Course p = null;
             for (Course s : courses) {
                 if (s.getNumCourseKdam() > 0)
@@ -292,7 +296,7 @@ public class Tests implements Runnable {
     }
     public String testRegisterCourseWithKdam(){
         String response = "";
-        try {
+        try {Thread.sleep(1000);
             Course p= getCourseWithKdam();
             int numOfSpotsInCourse  = p.getNumOfAvailbleSpots();
             int numOfSpotsInKdam    = p.getKdamCourses().get(0).getNumOfAvailbleSpots();
@@ -476,7 +480,7 @@ public class Tests implements Runnable {
     }
     public ConcurrentLinkedQueue<String> registerStudentsToCourse(Course p,int numThreads) {
         ConcurrentLinkedQueue<String> outputs  = new ConcurrentLinkedQueue<>();
-        try {
+        try {Thread.sleep(1000);
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             CountDownLatch threadsEnded = new CountDownLatch(numThreads);
             for (int i = 0; i < numThreads; i++) {
@@ -663,8 +667,8 @@ public class Tests implements Runnable {
             }).start();
 
             ArrayList<String> testAnswers = new ArrayList<>();
-            testAnswers.add(testRegistrationSameUser());
-            testAnswers.add(testLoginMultipleSameUser());
+//            testAnswers.add(testRegistrationSameUser());
+//            testAnswers.add(testLoginMultipleSameUser());
             testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
 //            testAnswers.add(tryBulkStudentLogicalTests());
 //            testAnswers.add(tryBulkAdminLogicalTests());
@@ -673,7 +677,7 @@ public class Tests implements Runnable {
 //            testAnswers.add(testKdamCheck());
 //            testAnswers.add(testMyCourses());
 //            testAnswers.add(testStudentStat());
-//            testAnswers.add(testCourseStat());
+            //testAnswers.add(testCourseStat());
 
             System.out.println("\r\n\r\n----------------------------------");
             for (String testAnswer : testAnswers) System.out.println(testAnswer);

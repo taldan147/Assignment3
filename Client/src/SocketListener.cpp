@@ -44,7 +44,6 @@ void SocketListener::run() {
             answer.resize(len - 1);
             std::cout << "ACK " << origcode << answer << std::endl;
             if(origcode==4){
-                std::cout << "Logged out successfully. Have a nice day :):):)...\n" << std::endl;
                 _mutex.lock();
                 _running = false;
                 _mutex.unlock();

@@ -18,19 +18,11 @@ public class RegistrationCommand extends ClientMessage {
     }
     @Override
     public Serializable execute(Database arg) {
-        synchronized (arg.getUsers()) {
-            String username = parameters.get(0);
-            String password = parameters.get(1);
-            if (arg.doesUserExists(username))
-                return new Error(opcode, new LinkedList<>());
-            User toRegister;
-            if (isAdmin)
-                toRegister = new Admin(username, password);
-            else
-                toRegister = new Student(username, password);
-            arg.registerUser(toRegister);
+        String username = parameters.get(0);
+        String password = parameters.get(1);
+        if (arg.registerUser(username, password, isAdmin))
             return new Ack(opcode, new LinkedList<>());
-        }
+        return new Error(opcode, new LinkedList<>());
     }
 
 

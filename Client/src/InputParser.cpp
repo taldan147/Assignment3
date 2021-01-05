@@ -4,19 +4,8 @@
 
 #include "../include/InputParser.h"
 
-InputParser::InputParser(int id, std::mutex &mutex, ConnectionHandler &handler, std::atomic<bool> &running) : _opCodes(
-        {}),
-                                                                                                              _queries(
-                                                                                                                      {5,
-                                                                                                                       6,
-                                                                                                                       7,
-                                                                                                                       9,
-                                                                                                                       10}),
-                                                                                                              _id(id),
-                                                                                                              _mutex(mutex),
-                                                                                                              _handle(handler),
-                                                                                                              _running(
-                                                                                                                      running) {
+InputParser::InputParser(int id, std::mutex &mutex, ConnectionHandler &handler, std::atomic<bool> &running) :
+        _opCodes({}),_queries({5,6,7,9,10}),_id(id),_mutex(mutex),_handle(handler),_running(running) {
     _opCodes["ADMINREG"] = 1;
     _opCodes["STUDENTREG"] = 2;
     _opCodes["LOGIN"] = 3;

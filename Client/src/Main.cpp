@@ -11,13 +11,9 @@ int main(int argc, char *argv[]) {
     short port = atoi(argv[2]);
 
     ConnectionHandler connectionHandler(host, port);
-    if (!connectionHandler.
 
-            connect()
-
-            ) {
-        std::cerr << "Cannot connect to " << host << ":" << port <<
-                  std::endl;
+    if (!connectionHandler.connect()) {
+        std::cerr << "Cannot connect to " << host << ":" << port <<std::endl;
         return 1;
     }
     std::mutex mutex;
