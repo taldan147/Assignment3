@@ -23,7 +23,10 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
             return msg;
         }
         ClientMessage message = (ClientMessage) msg;
-
+        if ((!loggedIn && !(message instanceof RegistrationCommand) && !(message instanceof LogInCommand))
+                || (loggedIn && (message instanceof RegistrationCommand || message instanceof LogInCommand))) {
+            return new Error(message.getOpcode(), new LinkedList<String>());
+        }
         if (message instanceof LogInCommand) {
             userName = (message).getUsername();
             loggedIn = true;
@@ -31,15 +34,11 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
             loggedIn = false;
             message.setUsername(userName);
             shouldTerminate = true;
-
-        } else {
-            if ((!loggedIn && !(message instanceof RegistrationCommand)) || (loggedIn && message instanceof RegistrationCommand)) {
-                return new Error(message.getOpcode(), new LinkedList<String>());
-            }
-            message.setUsername(userName);
         }
+        message.setUsername(userName);
         return (Message) message.execute(Database.getInstance());
     }
+
 
     @Override
     public boolean shouldTerminate() {

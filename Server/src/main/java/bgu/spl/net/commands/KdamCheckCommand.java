@@ -6,7 +6,9 @@ import bgu.spl.net.common.Course;
 import bgu.spl.net.srv.Database;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -17,13 +19,15 @@ public class KdamCheckCommand extends QueryMessage {
 
     @Override
     public Serializable execute(Database arg) {
-        if (arg.getUser(username)instanceof Admin){
+        if (arg.getUser(username)instanceof Admin || !arg.doesCourseExists(query)){
             return new Error(opcode,new LinkedList<>());
         }
-        return new Ack(opcode,arg.getCourse(query)
-                .getKdamCourses().stream()
+        List<String> params = new LinkedList<>();
+        params.add("\n"+ arg.getCourse(query)
+                .getKdamCourses().stream().sorted(Comparator.comparingInt(Course::getId))
                 .map(course
-                        -> String.valueOf(course.getCourseNum()))
-                .collect(Collectors.toList()));
+                        -> course.getCourseNum()).collect(Collectors.toList()).toString().replaceAll(" ",""));
+
+        return new Ack(opcode, params);
     }
 }

@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class LogInCommand extends ClientMessage {
-
     public LogInCommand(short opcode, List<String> parameters) {
         super(opcode, parameters);
     }

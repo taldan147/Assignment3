@@ -22,7 +22,7 @@ public class CourseStatCommand extends QueryMessage {
         Course course = arg.getCourse(query);
         params.add("\nCourse: (" + course.getCourseNum()+ ") "+ course.getCourseName() );
         params.add("\nSeats Available: " + (course.getMaxNumOfStudents()-course.getNumOfRegisteredStudents())+ "/" + course.getMaxNumOfStudents());
-        params.add("\nStudents Registered: " + course.getStudentsStrList());
+        params.add("\nStudents Registered: " + course.getStudentsStrList().replaceAll(" ",""));
         return new Ack(opcode, params);
     }
 }

@@ -24,13 +24,16 @@ public class MyCoursesCommand extends ClientMessage {
         List<String> params = new LinkedList<>();
         Student student = (Student) arg.getUser(username);
         List<Course> courses = student.getRegisteredCourses();
-        //TODO need to find out if it should be registration order or course file order
-        //courses.sort(Comparator.comparingInt(Course::getId));
-        StringBuilder courseString = new StringBuilder("\n[");
-        for (Course course : courses) {
-            courseString.append(course.getCourseName()).append(", ");
+        if (courses.size()>0) {
+            courses.sort(Comparator.comparingInt(Course::getId));
+            StringBuilder courseString = new StringBuilder("\n[");
+            for (Course course : courses) {
+                courseString.append(course.getCourseNum()).append(",");
+            }
+            params.add((courseString.delete(courseString.length()-1,courseString.length()) + "]"));
         }
-        params.add(courseString.delete(courseString.length()-2,courseString.length()) + "]");
+        else
+            params.add("\n[]");
         return new Ack(opcode, params);
     }
 }

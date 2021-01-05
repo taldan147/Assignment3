@@ -265,6 +265,7 @@ public class Tests implements Runnable {
                 new Thread(() -> {
                     try {
                         String username = "RON" + tempI;
+//                        outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTREG " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGIN " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("COURSEREG " + tempP.getCourseNum()));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGOUT"));
@@ -311,6 +312,7 @@ public class Tests implements Runnable {
                 new Thread(() -> {
                     try {
                         String username = "RON" + finalI;
+                        outputs.add(commandsProcessors.get(finalI).sendCommand("STUDENTREG " + username + " " + username));
                         outputs.add(commandsProcessors.get(finalI).sendCommand("LOGIN " + username + " " + username));
                         outputs.add(commandsProcessors.get(finalI).sendCommand("ISREGISTERED " + finalP.getCourseNum()));
                         outputs.add(commandsProcessors.get(finalI).sendCommand("COURSEREG " + finalP.getKdamCourses().get(0).getCourseNum()));
@@ -668,14 +670,14 @@ public class Tests implements Runnable {
 
             ArrayList<String> testAnswers = new ArrayList<>();
 //            testAnswers.add(testRegistrationSameUser());
-//            testAnswers.add(testLoginMultipleSameUser());
-           // testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
-  //          testAnswers.add(tryBulkStudentLogicalTests());
-            testAnswers.add(tryBulkAdminLogicalTests());
+//           testAnswers.add(testLoginMultipleSameUser());
+//            testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
+//            testAnswers.add(tryBulkStudentLogicalTests());
+//            testAnswers.add(tryBulkAdminLogicalTests());
 //            testAnswers.add(testRegisterCourseWithoutAnyKdam());
-//            testAnswers.add(testRegisterCourseWithKdam());
+            testAnswers.add(testRegisterCourseWithKdam());
 //            testAnswers.add(testKdamCheck());
-//            testAnswers.add(testMyCourses());
+            testAnswers.add(testMyCourses());
 //            testAnswers.add(testStudentStat());
             //testAnswers.add(testCourseStat());
 
