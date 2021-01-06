@@ -677,8 +677,8 @@ public class Tests implements Runnable {
 //            testAnswers.add(testRegisterCourseWithoutAnyKdam());
             testAnswers.add(testRegisterCourseWithKdam());
 //            testAnswers.add(testKdamCheck());
-            testAnswers.add(testMyCourses());
-//            testAnswers.add(testStudentStat());
+//            testAnswers.add(testMyCourses());
+            testAnswers.add(testStudentStat());
             //testAnswers.add(testCourseStat());
 
             System.out.println("\r\n\r\n----------------------------------");

@@ -28,13 +28,16 @@ public class StudentStatCommand extends ClientMessage {
         List<String> params = new LinkedList<>();
         Student student = (Student) arg.getUser(studentName);
         List<Course> courses = student.getRegisteredCourses();
-        courses.sort(Comparator.comparingInt(Course::getId));
-        StringBuilder courseString = new StringBuilder("\nCourses: [");
-        for (Course course : courses) {
-            courseString.append(course.getCourseName()).append(", ");
+        if (courses.size()>0) {
+            courses.sort(Comparator.comparingInt(Course::getId));
+            StringBuilder courseString = new StringBuilder("\nStudent: "+studentName+"\nCourses: [");
+            for (Course course : courses) {
+                courseString.append(course.getCourseNum()).append(",");
+            }
+            params.add((courseString.delete(courseString.length()-1,courseString.length()) + "]"));
         }
-        params.add("\nStudent: " + studentName);
-        params.add(courseString.delete(courseString.length()-2,courseString.length()) + "]");
+        else
+            params.add("\nStudent: "+studentName+"\nCourses: []");
         return new Ack(opcode, params);
     }
 }

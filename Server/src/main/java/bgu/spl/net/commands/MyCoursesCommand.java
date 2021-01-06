@@ -33,7 +33,7 @@ public class MyCoursesCommand extends ClientMessage {
             params.add((courseString.delete(courseString.length()-1,courseString.length()) + "]"));
         }
         else
-            params.add("\n[]");
+            params.add("[]");
         return new Ack(opcode, params);
     }
 }
