@@ -62,7 +62,7 @@ public class Course {
         return kdamCourses;
     }
 
-    public void registerStudent(String student){
+    public synchronized void registerStudent(String student){
         students.add(student);
         students.sort(Comparator.comparing(String::toString));
         numOfRegisteredStudents++;
