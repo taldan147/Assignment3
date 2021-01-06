@@ -440,7 +440,7 @@ public class Tests implements Runnable {
             return "StudentStat Test - Failed 2";
         return "StudentStat Test -Passed";
     }
-    public String testCourseStat(){
+    public String testCourseStat() throws InterruptedException {
         Course p=getCourseWithNoKdams();
         int numOfThreads=p.numOfMaxStudents;
         registerStudentsToCourse(p,numOfThreads);
@@ -452,8 +452,10 @@ public class Tests implements Runnable {
         String students="Students Registered: "+studentList.toString().replaceAll(" ","");
         CommandProcessor commandProcessorOfAdmin=new CommandProcessor();
         commandProcessorOfAdmin.initialize();
+        commandProcessorOfAdmin.sendCommand("ADMINREG A A");
         commandProcessorOfAdmin.sendCommand("LOGIN A A");
         String output     = commandProcessorOfAdmin.sendCommand("COURSESTAT "+p.getCourseNum());
+        Thread.sleep(1000);
         String [] tokens  = output.split("\n");
         String ack        = tokens[0];
         String courseName = tokens[1];
@@ -468,6 +470,7 @@ public class Tests implements Runnable {
         commandProcessorOfStudent.sendCommand("LOGIN RON0 RON0");
         commandProcessorOfStudent.sendCommand("UNREGISTER "+p.getCourseNum());
         String output1= commandProcessorOfAdmin.sendCommand("COURSESTAT "+p.getCourseNum());
+        Thread.sleep(300);
         String [] tokens1=output1.split("\n");
         String ack1=tokens1[0];
         String courseName1=tokens1[1];
@@ -491,6 +494,7 @@ public class Tests implements Runnable {
                 new Thread(() -> {
                     try {
                         String username = "RON" + tempI;
+                        outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTREG " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGIN " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("COURSEREG "+ p.getCourseNum()));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGOUT"));
@@ -672,7 +676,7 @@ public class Tests implements Runnable {
             ArrayList<String> testAnswers = new ArrayList<>();
             testAnswers.add(testRegistrationSameUser());
             testAnswers.add(testLoginMultipleSameUser());
-            testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
+           testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
             testAnswers.add(tryBulkStudentLogicalTests());
             testAnswers.add(tryBulkAdminLogicalTests());
             testAnswers.add(testRegisterCourseWithoutAnyKdam());

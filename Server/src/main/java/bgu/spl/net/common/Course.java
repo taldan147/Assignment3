@@ -64,8 +64,9 @@ public class Course {
 
     public synchronized void registerStudent(String student){
         students.add(student);
-        students.sort(Comparator.comparing(String::toString));
         numOfRegisteredStudents++;
+        students.sort(Comparator.comparing(String::toString));
+
     }
     public void unregisterStudent(String student){
         students.remove(student);
