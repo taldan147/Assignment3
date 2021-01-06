@@ -154,19 +154,20 @@ public class Tests implements Runnable {
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
             CountDownLatch threadsEnded = new CountDownLatch(numThreads);
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < numThreads; i++) {
                 int tempI = i;
                 Course tempP = p;
                 new Thread(() -> {
                     try {
                         String username = "RON" + tempI;
-                        outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTREG " + username + " " + username));
+//                        outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTREG " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGIN " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("COURSESTAT " + tempP.getCourseNum())); //Cant access admin commands
                         outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTREG L" + tempI + " L" + tempI)); //Shouldn't work after you are already logged in
                         outputs.add(commandsProcessors.get(tempI).sendCommand("ADMINREG L" + tempI + " L" + tempI)); //Shouldn't work after you are already logged in
                         outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTSTAT RON" + (tempI - 1))); //ADMIN COMMAND
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGOUT"));
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
@@ -672,7 +673,7 @@ public class Tests implements Runnable {
             testAnswers.add(testRegistrationSameUser());
             testAnswers.add(testLoginMultipleSameUser());
             testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
-//            testAnswers.add(tryBulkStudentLogicalTests());
+            testAnswers.add(tryBulkStudentLogicalTests());
             testAnswers.add(tryBulkAdminLogicalTests());
             testAnswers.add(testRegisterCourseWithoutAnyKdam());
             testAnswers.add(testRegisterCourseWithKdam());
