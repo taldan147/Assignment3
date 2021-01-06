@@ -669,17 +669,17 @@ public class Tests implements Runnable {
             }).start();
 
             ArrayList<String> testAnswers = new ArrayList<>();
-//            testAnswers.add(testRegistrationSameUser());
-//           testAnswers.add(testLoginMultipleSameUser());
-//            testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
+            testAnswers.add(testRegistrationSameUser());
+            testAnswers.add(testLoginMultipleSameUser());
+            testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
 //            testAnswers.add(tryBulkStudentLogicalTests());
-//            testAnswers.add(tryBulkAdminLogicalTests());
-//            testAnswers.add(testRegisterCourseWithoutAnyKdam());
+            testAnswers.add(tryBulkAdminLogicalTests());
+            testAnswers.add(testRegisterCourseWithoutAnyKdam());
             testAnswers.add(testRegisterCourseWithKdam());
-//            testAnswers.add(testKdamCheck());
-//            testAnswers.add(testMyCourses());
+            testAnswers.add(testKdamCheck());
+            testAnswers.add(testMyCourses());
             testAnswers.add(testStudentStat());
-            //testAnswers.add(testCourseStat());
+            testAnswers.add(testCourseStat());
 
             System.out.println("\r\n\r\n----------------------------------");
             for (String testAnswer : testAnswers) System.out.println(testAnswer);

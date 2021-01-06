@@ -133,7 +133,7 @@ public class Database {
             toRegister = new Admin(username, password);
         else
             toRegister = new Student(username, password);
-        if (!doesUserExists(username)) {
+        if (username == null || !doesUserExists(username)) {
             users.putIfAbsent(username, toRegister);
             return true;
         }
