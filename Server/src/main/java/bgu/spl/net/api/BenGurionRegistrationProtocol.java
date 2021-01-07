@@ -1,11 +1,9 @@
 package bgu.spl.net.api;
 
-import bgu.spl.net.commands.LogInCommand;
+import bgu.spl.net.commands.*;
 
-import bgu.spl.net.commands.LogOutCommand;
-import bgu.spl.net.commands.RegistrationCommand;
-import bgu.spl.net.commands.base.ClientMessage;
 import bgu.spl.net.commands.Error;
+import bgu.spl.net.commands.base.ClientMessage;
 import bgu.spl.net.commands.base.Message;
 import bgu.spl.net.srv.Database;
 
@@ -29,7 +27,10 @@ public class BenGurionRegistrationProtocol implements MessagingProtocol<Message>
         }
         if (message instanceof LogInCommand) {
             userName = (message).getUsername();
-            loggedIn = true;
+            Message response = (Message) message.execute(Database.getInstance());
+            if (response instanceof Ack)
+                loggedIn = true;
+            return response;
         } else if (message instanceof LogOutCommand) {
             loggedIn = false;
             message.setUsername(userName);

@@ -128,7 +128,7 @@ public class Database {
     	Student student = (Student) getUser(username);
         Course courseToRegister = getCourse(courseNum);
         synchronized (courseToRegister){
-            if (!courseToRegister.hasAvailable() || !student.hasAllKdam(courseNum))
+            if (!courseToRegister.hasAvailable() || !student.hasAllKdam(courseNum) || student.getRegisteredCourses().contains(courseToRegister))
                 return false;
             student.registerCourse(courseToRegister);
             courseToRegister.registerStudent(username);
