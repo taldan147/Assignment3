@@ -16,14 +16,20 @@ public class RegCourseCommand extends QueryMessage {
     @Override
     public Serializable execute(Database arg) {
         // if student is logoff username is null
+//        if (username == null || arg.getUser(username) instanceof Admin || !arg.doesCourseExists(query))
+//            return new Error(opcode, new LinkedList<>());
+//        synchronized (arg.getCourse(query)){
+//            if (!arg.getCourse(query).hasAvailable() || !((Student)arg.getUser(username)).hasAllKdam(query))
+//                return new Error(opcode, new LinkedList<>());
+//            arg.registerToCourse(username, query);
+//            return new Ack(opcode, new LinkedList<>());
+//        }
+
         if (username == null || arg.getUser(username) instanceof Admin || !arg.doesCourseExists(query))
             return new Error(opcode, new LinkedList<>());
-        synchronized (arg.getCourse(query)){
-            if (!arg.getCourse(query).hasAvailable() || !((Student)arg.getUser(username)).hasAllKdam(query))
-                return new Error(opcode, new LinkedList<>());
-            arg.registerToCourse(username, query);
+        if (arg.registerToCourse(username, query))
             return new Ack(opcode, new LinkedList<>());
-        }
+        return new Error(opcode, new LinkedList<>());
 
     }
 }

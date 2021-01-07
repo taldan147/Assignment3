@@ -120,11 +120,21 @@ public class Database {
     	return courses.containsKey(courseNum);
 	}
 
-    public void registerToCourse(String username, short courseNum){
+    public boolean registerToCourse(String username, short courseNum){
+//    	Student student = (Student) getUser(username);
+//    	Course courseToRegister = getCourse(courseNum);
+//    	student.registerCourse(courseToRegister);
+//    	courseToRegister.registerStudent(username);
     	Student student = (Student) getUser(username);
-    	Course courseToRegister = getCourse(courseNum);
-    	student.registerCourse(courseToRegister);
-    	courseToRegister.registerStudent(username);
+        Course courseToRegister = getCourse(courseNum);
+        synchronized (courseToRegister){
+            if (!courseToRegister.hasAvailable() || !student.hasAllKdam(courseNum))
+                return false;
+            student.registerCourse(courseToRegister);
+            courseToRegister.registerStudent(username);
+            return true;
+        }
+
 	}
 
     public synchronized boolean registerUser(String username, String password ,boolean isAdmin) {

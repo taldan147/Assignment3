@@ -25,10 +25,9 @@ public class Tests implements Runnable {
         return commandsProcessors;
     }
 
-    public String testRegistrationSameUser() throws InterruptedException {
+    public String testRegistrationSameUser() {
         String response = "";
         try {
-            Thread.sleep(1000);
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
 
@@ -65,7 +64,6 @@ public class Tests implements Runnable {
     public String testLoginMultipleSameUser() {
         String response = "";
         try {
-            Thread.sleep(1000);
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
 
@@ -103,7 +101,6 @@ public class Tests implements Runnable {
     public String testRegisLoginLogoutMultipleDifferentUser() {
         String response = "";
         try {
-            Thread.sleep(3000);
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
 
@@ -139,13 +136,12 @@ public class Tests implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return response;
     }
 
     String tryBulkStudentLogicalTests() {
         String response = "";
-        try {Thread.sleep(1000);
+        try {
             Course p = null;
             for (Course s : courses) {
                 if (s.getNumCourseKdam() == 0)  //Choose an active course I can try and get course stat for as a student
@@ -160,14 +156,13 @@ public class Tests implements Runnable {
                 new Thread(() -> {
                     try {
                         String username = "RON" + tempI;
-//                        outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTREG " + username + " " + username));
+
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGIN " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("COURSESTAT " + tempP.getCourseNum())); //Cant access admin commands
                         outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTREG L" + tempI + " L" + tempI)); //Shouldn't work after you are already logged in
                         outputs.add(commandsProcessors.get(tempI).sendCommand("ADMINREG L" + tempI + " L" + tempI)); //Shouldn't work after you are already logged in
                         outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTSTAT RON" + (tempI - 1))); //ADMIN COMMAND
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGOUT"));
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
@@ -201,12 +196,12 @@ public class Tests implements Runnable {
 
     String tryBulkAdminLogicalTests() {
         String response = "";
-        try {Thread.sleep(1000);
+        try {
             Course p = getCourseWithNoKdams();
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             ConcurrentLinkedQueue<String> outputs = new ConcurrentLinkedQueue<>();
             CountDownLatch threadsEnded = new CountDownLatch(numThreads);
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < numThreads; i++) {
                 int tempI = i;
                 new Thread(() -> {
                     try {
@@ -251,7 +246,7 @@ public class Tests implements Runnable {
 
     public String testRegisterCourseWithoutAnyKdam() {
         String response = "";
-        try {Thread.sleep(1000);
+        try {
             Course p = null;
             for (Course s : courses) {
                 if (s.getNumCourseKdam() > 0)
@@ -266,7 +261,6 @@ public class Tests implements Runnable {
                 new Thread(() -> {
                     try {
                         String username = "RON" + tempI;
-//                        outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTREG " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGIN " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("COURSEREG " + tempP.getCourseNum()));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGOUT"));
@@ -298,7 +292,7 @@ public class Tests implements Runnable {
     }
     public String testRegisterCourseWithKdam(){
         String response = "";
-        try {Thread.sleep(1000);
+        try {
             Course p= getCourseWithKdam();
             int numOfSpotsInCourse  = p.getNumOfAvailbleSpots();
             int numOfSpotsInKdam    = p.getKdamCourses().get(0).getNumOfAvailbleSpots();
@@ -313,7 +307,6 @@ public class Tests implements Runnable {
                 new Thread(() -> {
                     try {
                         String username = "RON" + finalI;
-                        outputs.add(commandsProcessors.get(finalI).sendCommand("STUDENTREG " + username + " " + username));
                         outputs.add(commandsProcessors.get(finalI).sendCommand("LOGIN " + username + " " + username));
                         outputs.add(commandsProcessors.get(finalI).sendCommand("ISREGISTERED " + finalP.getCourseNum()));
                         outputs.add(commandsProcessors.get(finalI).sendCommand("COURSEREG " + finalP.getKdamCourses().get(0).getCourseNum()));
@@ -363,7 +356,7 @@ public class Tests implements Runnable {
             int numberOfExtraSpacesInKdam=Math.min(p.getKdamCourses().get(0).numOfMaxStudents-actualSpots,2);
             if(numTimesSuccess != (int)(actualSpots*4+4+numberOfExtraSpacesInKdam) || numTimesRegistered != actualSpots||numTimesUnsuccessful!=(8-numberOfExtraSpacesInKdam*2)
                     || numTimesNotRegistered != actualSpots+4||numTimeSucUnregister!=(int)(actualSpots*2+numberOfExtraSpacesInKdam))
-                     response = "CourseReg Test - Kdam Test 2 Failed (Registering Kdam Courses And Then Course)";
+                response = "CourseReg Test - Kdam Test 2 Failed (Registering Kdam Courses And Then Course)";
             else     response = "CourseReg Test - Kdam Test 2 Passed";
         }catch(Exception e){
             e.printStackTrace();
@@ -440,7 +433,7 @@ public class Tests implements Runnable {
             return "StudentStat Test - Failed 2";
         return "StudentStat Test -Passed";
     }
-    public String testCourseStat() throws InterruptedException {
+    public String testCourseStat(){
         Course p=getCourseWithNoKdams();
         int numOfThreads=p.numOfMaxStudents;
         registerStudentsToCourse(p,numOfThreads);
@@ -452,10 +445,8 @@ public class Tests implements Runnable {
         String students="Students Registered: "+studentList.toString().replaceAll(" ","");
         CommandProcessor commandProcessorOfAdmin=new CommandProcessor();
         commandProcessorOfAdmin.initialize();
-        commandProcessorOfAdmin.sendCommand("ADMINREG A A");
         commandProcessorOfAdmin.sendCommand("LOGIN A A");
         String output     = commandProcessorOfAdmin.sendCommand("COURSESTAT "+p.getCourseNum());
-        Thread.sleep(1000);
         String [] tokens  = output.split("\n");
         String ack        = tokens[0];
         String courseName = tokens[1];
@@ -470,7 +461,6 @@ public class Tests implements Runnable {
         commandProcessorOfStudent.sendCommand("LOGIN RON0 RON0");
         commandProcessorOfStudent.sendCommand("UNREGISTER "+p.getCourseNum());
         String output1= commandProcessorOfAdmin.sendCommand("COURSESTAT "+p.getCourseNum());
-        Thread.sleep(300);
         String [] tokens1=output1.split("\n");
         String ack1=tokens1[0];
         String courseName1=tokens1[1];
@@ -486,7 +476,7 @@ public class Tests implements Runnable {
     }
     public ConcurrentLinkedQueue<String> registerStudentsToCourse(Course p,int numThreads) {
         ConcurrentLinkedQueue<String> outputs  = new ConcurrentLinkedQueue<>();
-        try {Thread.sleep(1000);
+        try {
             ArrayList<CommandProcessor> commandsProcessors = initiateProcesses(numThreads);
             CountDownLatch threadsEnded = new CountDownLatch(numThreads);
             for (int i = 0; i < numThreads; i++) {
@@ -494,7 +484,6 @@ public class Tests implements Runnable {
                 new Thread(() -> {
                     try {
                         String username = "RON" + tempI;
-                        outputs.add(commandsProcessors.get(tempI).sendCommand("STUDENTREG " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGIN " + username + " " + username));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("COURSEREG "+ p.getCourseNum()));
                         outputs.add(commandsProcessors.get(tempI).sendCommand("LOGOUT"));
@@ -676,7 +665,7 @@ public class Tests implements Runnable {
             ArrayList<String> testAnswers = new ArrayList<>();
             testAnswers.add(testRegistrationSameUser());
             testAnswers.add(testLoginMultipleSameUser());
-           testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
+            testAnswers.add(testRegisLoginLogoutMultipleDifferentUser());
             testAnswers.add(tryBulkStudentLogicalTests());
             testAnswers.add(tryBulkAdminLogicalTests());
             testAnswers.add(testRegisterCourseWithoutAnyKdam());
