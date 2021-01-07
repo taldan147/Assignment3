@@ -18,7 +18,7 @@ public class IsRegisteredCommand extends QueryMessage {
 
     @Override
     public Serializable execute(Database arg) {
-        if (username == null || arg.getUser(username) instanceof Admin)
+        if (username == null || arg.getUser(username) instanceof Admin || !arg.doesCourseExists(query))
             return new Error(opcode, new LinkedList<>());
         Student student = (Student)arg.getUser(username);
         if (student.isRegistered(arg.getCourse(query)))

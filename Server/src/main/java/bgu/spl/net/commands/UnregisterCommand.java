@@ -16,7 +16,8 @@ public class UnregisterCommand extends QueryMessage {
 
     @Override
     public Serializable execute(Database arg) {
-        if (username == null || arg.getUser(username) instanceof Admin || !((Student)arg.getUser(username)).isRegistered(arg.getCourse(query)))
+        if (username == null || arg.getUser(username) instanceof Admin || !((Student)arg.getUser(username)).isRegistered(arg.getCourse(query))
+                || !arg.doesCourseExists(query))
             return new Error(opcode, new LinkedList<>());
         arg.unregisterCourse((Student)arg.getUser(username), arg.getCourse(query));
         return new Ack(opcode, new LinkedList<>());
