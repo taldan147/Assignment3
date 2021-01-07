@@ -2,26 +2,18 @@
 LDFLAGS:=-lboost_system -lboost_thread -pthread
 
 all: BGRSclient
+	g++ -o bin/BGRSclient  bin/connectionHandler.o bin/SocketListener.o bin/InputParser.o bin/Main.o $(LDFLAGS)
 
-BGRSclient: bin/connectionHandler.o bin/InputParser.o bin/SocketListener.o bin/Main.o
-	@echo 'Building target: BGRSclient'
-	g++ -o BGRSclient bin/connectionHandler.o bin/InputParser.o bin/SocketListener.o bin/Main.o  $(LDFLAGS)
-	@echo 'Finished building target: BGRSclient'
-	@echo ' '
+BGRSclient: bin/connectionHandler.o bin/SocketListener.o bin/InputParser.o bin/Main.o
 
 bin/connectionHandler.o: src/connectionHandler.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/connectionHandler.o src/connectionHandler.cpp
-
-bin/InputParser.o: src/InputParser.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/InputParser.o src/InputParser.cpp
-
+	g++ $(CFLAGS) -o bin/connectionHandler.o src/connectionHandler.cpp
 bin/SocketListener.o: src/SocketListener.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/SocketListener.o src/SocketListener.cpp
-
+	g++ $(CFLAGS) -o bin/SocketListener.o src/SocketListener.cpp
+bin/InputParser.o: src/InputParser.cpp
+	g++ $(CFLAGS) -o bin/InputParser.o src/InputParser.cpp
 bin/Main.o: src/Main.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude -o bin/Main.o src/Main.cpp
-
-
-
+	g++ $(CFLAGS) -o bin/Main.o src/Main.cpp
+.PHONY: clean
 clean:
 	rm -f bin/*
