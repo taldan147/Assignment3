@@ -23,16 +23,16 @@ import java.util.stream.Collectors;
  * You can add private fields and methods to this class as you see fit.
  */
 public class Database {
-    private ConcurrentHashMap<String, User> users;
-    private ConcurrentHashMap<Integer, Course> courses;
+    private HashMap<String, User> users;
+    private HashMap<Integer, Course> courses;
 //    private Set<User> users;
 //    private Set<Course> courses;
     private int count;
 
     //to prevent user from creating new Database
     private Database() {
-        users = new ConcurrentHashMap<String,User>();
-        courses = new ConcurrentHashMap<Integer,Course>();
+        users = new HashMap<String,User>();
+        courses = new HashMap<Integer,Course>();
         count = 0;
     }
 
@@ -144,7 +144,7 @@ public class Database {
         else
             toRegister = new Student(username, password);
         if (username == null || !doesUserExists(username)) {
-            users.putIfAbsent(username, toRegister);
+            users.put(username, toRegister);
             return true;
         }
         return false;
@@ -159,7 +159,7 @@ public class Database {
         course.unregisterStudent(student.getUserName());
     }
 
-    public ConcurrentHashMap<String,User> getUsers(){ return users; }
+    public HashMap<String,User> getUsers(){ return users; }
 }
 
 
