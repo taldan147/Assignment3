@@ -40,6 +40,9 @@ public class Database {
      * Retrieves the single instance of this class.
      */
     public static Database getInstance() {
+        if(DatabaseHolder.instance==null){
+            getInstance().initialize("Course.txt");
+        }
         return DatabaseHolder.instance;
     }
 
