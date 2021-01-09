@@ -121,10 +121,6 @@ public class Database {
 	}
 
     public boolean registerToCourse(String username, short courseNum){
-//    	Student student = (Student) getUser(username);
-//    	Course courseToRegister = getCourse(courseNum);
-//    	student.registerCourse(courseToRegister);
-//    	courseToRegister.registerStudent(username);
     	Student student = (Student) getUser(username);
         Course courseToRegister = getCourse(courseNum);
         synchronized (courseToRegister){
